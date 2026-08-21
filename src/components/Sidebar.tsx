@@ -35,7 +35,7 @@ export default function Sidebar() {
           <TreePine className="w-6 h-6 text-emerald-600" />
         </div>
         <div className="flex-1 overflow-hidden">
-          <h1 className="text-slate-900 font-bold text-lg leading-tight truncate">AFIRN</h1>
+          <h1 className="text-slate-900 font-bold text-lg leading-tight truncate">VANDRISHTI</h1>
           <p className="text-[11px] text-slate-500 truncate">Command & Control System</p>
         </div>
         <ChevronDown className="w-4 h-4 text-slate-400 shrink-0" />

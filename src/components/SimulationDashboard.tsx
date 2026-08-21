@@ -173,7 +173,7 @@ export default function SimulationDashboard() {
           <div className="w-8 h-8 bg-indigo-500/20 rounded flex items-center justify-center">
             <Play className="w-4 h-4 text-indigo-400" />
           </div>
-          <h1 className="font-bold text-lg tracking-wide">AFIRN Live Simulation</h1>
+          <h1 className="font-bold text-lg tracking-wide">VANDRISHTI Live Simulation</h1>
         </div>
         
         <div className="flex items-center gap-4">
@@ -390,7 +390,7 @@ export default function SimulationDashboard() {
                   <ShieldCheck className="w-8 h-8 text-emerald-400" />
                 </div>
                 <h2 className="text-2xl font-black text-white mb-2">Simulation Complete</h2>
-                <p className="text-slate-400 mb-8">AFIRN enhances the existing forest fire monitoring system with earlier detection, multi-source verification, resilient offline communication and intelligent decision support.</p>
+                <p className="text-slate-400 mb-8">VANDRISHTI enhances the existing forest fire monitoring system with earlier detection, multi-source verification, resilient offline communication and intelligent decision support.</p>
                 
                 <div className="grid grid-cols-2 gap-4 w-full mb-8">
                   <div className="bg-slate-800 p-4 rounded-xl border border-slate-700 text-left">

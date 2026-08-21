@@ -70,9 +70,9 @@ export default function CommandCenter() {
       <div className="flex flex-col xl:flex-row xl:justify-between items-start gap-4 shrink-0">
         <div>
           <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
-            AFIRN Command Officer <span className="text-xl">👋</span>
+            VANDRISHTI Command Officer <span className="text-xl">👋</span>
           </h1>
-          <p className="text-sm text-slate-500 mt-1">Adaptive Forest Intelligence & Response Network (AFIRN)</p>
+          <p className="text-sm text-slate-500 mt-1">VANDRISHTI - Forest Intelligence & Response Network</p>
         </div>
         <div className="flex flex-wrap items-center gap-3 w-full xl:w-auto">
           <button 
@@ -171,10 +171,20 @@ export default function CommandCenter() {
                 style={{ height: '100%', width: '100%', background: '#f8fafc' }}
                 zoomControl={false}
               >
-                <TileLayer
-                  url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-                  attribution='&copy; <a href="https://carto.com/">CARTO</a>'
-                />
+                <LayersControl position="topright">
+                  <LayersControl.BaseLayer checked name="Satellite View">
+                    <TileLayer
+                      url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+                      attribution='Tiles &copy; Esri'
+                    />
+                  </LayersControl.BaseLayer>
+                  <LayersControl.BaseLayer name="Street View">
+                    <TileLayer
+                      url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+                      attribution='&copy; <a href="https://carto.com/">CARTO</a>'
+                    />
+                  </LayersControl.BaseLayer>
+                </LayersControl>
                 {activeIncidents.map(inc => (
                   <Marker 
                     key={inc.id}
@@ -427,6 +437,23 @@ export default function CommandCenter() {
               </div>
             </div>
           </div>
+          {/* LIVE FOREST MAP LINK */}
+          <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm shrink-0 cursor-pointer hover:bg-slate-50 transition-colors" onClick={() => navigate('/monitoring')}>
+            <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-3 flex items-center justify-between">
+              <div className="flex items-center gap-2"><MapPin className="w-4 h-4 text-emerald-600" /> Full Live Forest Map</div>
+              <ChevronRight className="w-4 h-4 text-slate-400" />
+            </h3>
+            <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-100 flex items-center justify-between">
+                <div>
+                  <div className="text-sm font-bold text-emerald-800">Explore Interactive Map</div>
+                  <div className="text-[10px] text-emerald-600">View real-time satellite telemetry, weather overlays, and spatial analytics</div>
+                </div>
+                <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm text-emerald-600">
+                  <Activity className="w-5 h-5" />
+                </div>
+            </div>
+          </div>
+
 
         </div>
       </div>
