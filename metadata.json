@@ -1,0 +1,8 @@
+{
+  "name": "VanRakshak Dashboard",
+  "description": "Real-time Forest Fire Detection System Dashboard",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

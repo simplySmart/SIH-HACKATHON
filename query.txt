@@ -1,0 +1,1 @@
+data=[out:json][timeout:90];area["name:en"="Chhattisgarh"]->.searchArea;(relation["boundary"="protected_area"](area.searchArea);relation["boundary"="national_park"](area.searchArea);way["landuse"="forest"](area.searchArea);relation["landuse"="forest"](area.searchArea););out geom;
