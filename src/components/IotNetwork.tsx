@@ -12,8 +12,8 @@ import { FireService } from '../services/fireService';
 const getSensorColor = (status: string) => {
   switch(status) {
     case 'Normal': return 'bg-green-500';
-    case 'Warning': return 'bg-yellow-500';
-    case 'Fire Anomaly': return 'bg-red-500 animate-pulse';
+    case 'High Alert': return 'bg-yellow-500';
+    case 'Fire Mode': return 'bg-red-500 animate-pulse';
     case 'Offline': return 'bg-gray-400';
     default: return 'bg-gray-400';
   }
@@ -23,7 +23,7 @@ const createSensorIcon = (status: string) => {
   const colorClass = getSensorColor(status);
   return L.divIcon({
     className: 'custom-icon',
-    html: `<div class="w-5 h-5 rounded-full border-2 border-white shadow-md ${colorClass} flex items-center justify-center"><div class="w-1.5 h-1.5 bg-white rounded-full opacity-80"></div></div>`,
+    html: `<div class="w-5 h-5 rounded-full border-2 border-white shadow-md ${colorClass} flex items-center justify-center"><div class="w-1.5 h-1.5 bg-[#121E15] rounded-full opacity-80"></div></div>`,
     iconSize: [20, 20],
     iconAnchor: [10, 10],
   });
@@ -41,8 +41,8 @@ export default function IotNetwork() {
   }, []);
 
   const connectedCount = sensors.filter(s => s.status === 'Normal').length;
-  const warningCount = sensors.filter(s => s.status === 'Warning').length;
-  const anomalyCount = sensors.filter(s => s.status === 'Fire Anomaly').length;
+  const warningCount = sensors.filter(s => s.status === 'High Alert').length;
+  const anomalyCount = sensors.filter(s => s.status === 'Fire Mode').length;
   const offlineCount = sensors.filter(s => s.status === 'Offline').length;
 
   const handleCreateIncident = async () => {
@@ -86,18 +86,18 @@ export default function IotNetwork() {
   };
 
   return (
-    <div className="flex flex-col h-full bg-[#F5F7F6] overflow-hidden rounded-3xl">
-      <header className="px-6 py-5 shrink-0 flex justify-between items-center bg-white border-b border-gray-100">
+    <div className="flex flex-col h-full bg-[#0B120C] overflow-hidden rounded-3xl">
+      <header className="px-4 md:px-6 py-4 md:py-5 shrink-0 flex flex-col md:flex-row md:justify-between items-start md:items-center gap-4 bg-[#121E15] border-b border-white/5">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 uppercase tracking-tight">IoT Network</h1>
-          <p className="text-sm text-gray-500 font-medium mt-1">Ground sensors complementing satellite observations.</p>
+          <h1 className="text-xl md:text-2xl font-bold text-white uppercase tracking-tight">Adaptive Sensor Network</h1>
+          <p className="text-sm text-gray-500 font-medium mt-1">Tactical Ground Sensing: Sleeping, Monitoring, Alert, Fire Mode, Offline.</p>
         </div>
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1.5 px-2.5 py-1 bg-green-50 rounded-md border border-green-100">
+        <div className="flex flex-wrap items-center gap-2 md:gap-3">
+          <div className="flex items-center gap-1.5 px-2.5 py-1 bg-green-500/10 rounded-md border border-green-500/20">
             <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-            <span className="text-[10px] font-bold text-green-700 uppercase tracking-wider">System Operational</span>
+            <span className="text-[10px] font-bold text-green-400 uppercase tracking-wider">System Operational</span>
           </div>
-          <span className="bg-orange-100 text-orange-800 text-[10px] px-2.5 py-1 rounded-md font-bold uppercase tracking-wider border border-orange-200">
+          <span className="bg-orange-500/10 text-orange-400 border border-orange-500/20 text-[10px] px-2.5 py-1 rounded-md font-bold uppercase tracking-wider border border-orange-200">
             Demo Data
           </span>
         </div>
@@ -107,41 +107,41 @@ export default function IotNetwork() {
         
         {/* Summary Metrics */}
         <div className="flex md:grid grid-cols-2 md:grid-cols-4 gap-4 overflow-x-auto pb-2 snap-x hide-scrollbar">
-          <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between min-w-[140px] snap-center shrink-0">
+          <div className="bg-[#121E15] p-4 rounded-xl border border-white/10 shadow-sm flex flex-col justify-between min-w-[140px] snap-center shrink-0">
             <div className="flex items-center gap-2 mb-2">
               <CheckCircle className="w-4 h-4 text-green-500" />
-              <span className="text-sm font-medium text-gray-600">Connected</span>
+              <span className="text-sm font-medium text-gray-500">Monitoring</span>
             </div>
-            <div className="text-3xl font-bold text-gray-900">{connectedCount}</div>
+            <div className="text-3xl font-bold text-white">{connectedCount}</div>
           </div>
-          <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between min-w-[140px] snap-center shrink-0">
+          <div className="bg-[#121E15] p-4 rounded-xl border border-white/10 shadow-sm flex flex-col justify-between min-w-[140px] snap-center shrink-0">
             <div className="flex items-center gap-2 mb-2">
               <AlertTriangle className="w-4 h-4 text-yellow-500" />
-              <span className="text-sm font-medium text-gray-600">Warning</span>
+              <span className="text-sm font-medium text-gray-500">High Alert</span>
             </div>
-            <div className="text-3xl font-bold text-gray-900">{warningCount}</div>
+            <div className="text-3xl font-bold text-white">{warningCount}</div>
           </div>
           <div className="bg-red-50 p-4 rounded-xl border border-red-200 shadow-sm flex flex-col justify-between min-w-[140px] snap-center shrink-0">
             <div className="flex items-center gap-2 mb-2">
               <Activity className="w-4 h-4 text-red-600" />
-              <span className="text-sm font-bold text-red-700">Fire Anomaly</span>
+              <span className="text-sm font-bold text-red-700">Fire Mode</span>
             </div>
             <div className="text-3xl font-bold text-red-900">{anomalyCount}</div>
           </div>
-          <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between min-w-[140px] snap-center shrink-0">
+          <div className="bg-[#121E15] p-4 rounded-xl border border-white/10 shadow-sm flex flex-col justify-between min-w-[140px] snap-center shrink-0">
             <div className="flex items-center gap-2 mb-2">
-              <XCircle className="w-4 h-4 text-gray-400" />
-              <span className="text-sm font-medium text-gray-600">Offline</span>
+              <XCircle className="w-4 h-4 text-gray-500" />
+              <span className="text-sm font-medium text-gray-500">Offline</span>
             </div>
-            <div className="text-3xl font-bold text-gray-900">{offlineCount}</div>
+            <div className="text-3xl font-bold text-white">{offlineCount}</div>
           </div>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-4 h-auto lg:h-[650px]">
           {/* Map Section */}
-          <div className="flex-1 w-full h-[400px] lg:h-full bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden relative z-0">
-            <div className="absolute top-4 left-4 z-[1000] bg-white/95 backdrop-blur px-4 py-2 rounded-xl shadow-sm border border-gray-200 pointer-events-none">
-              <span className="text-xs font-bold text-gray-900 uppercase tracking-wider">Ground Sensor Nodes</span>
+          <div className="flex-1 w-full h-[400px] lg:h-full bg-[#121E15] rounded-2xl border border-white/10 shadow-sm overflow-hidden relative z-0">
+            <div className="absolute top-4 left-4 z-[1000] bg-[#121E15]/95 backdrop-blur px-4 py-2 rounded-xl shadow-sm border border-white/10 pointer-events-none">
+              <span className="text-xs font-bold text-white uppercase tracking-wider">Ground Sensor Nodes</span>
             </div>
             
             <MapContainer 
@@ -175,11 +175,11 @@ export default function IotNetwork() {
             </MapContainer>
             
             {/* Map Legend */}
-            <div className="absolute bottom-4 left-4 z-[1000] bg-white/95 backdrop-blur px-4 py-3 rounded-xl shadow-sm border border-gray-200 pointer-events-none flex flex-col gap-2">
+            <div className="absolute bottom-4 left-4 z-[1000] bg-[#121E15]/95 backdrop-blur px-4 py-3 rounded-xl shadow-sm border border-white/10 pointer-events-none flex flex-col gap-2">
               <div className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Node Status</div>
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded-full bg-green-500"></div><span className="text-xs">Normal</span></div>
-                <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded-full bg-yellow-500"></div><span className="text-xs">Warning</span></div>
+                <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded-full bg-yellow-500"></div><span className="text-xs">High Alert</span></div>
                 <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded-full bg-red-500"></div><span className="text-xs">Anomaly</span></div>
                 <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded-full bg-gray-400"></div><span className="text-xs">Offline</span></div>
               </div>
@@ -188,22 +188,22 @@ export default function IotNetwork() {
 
           {/* Details Panel */}
           {selectedSensor ? (
-            <div className="w-full lg:w-[420px] fixed lg:relative bottom-[calc(env(safe-area-inset-bottom)+60px)] lg:bottom-auto left-0 right-0 z-[2000] lg:z-auto bg-white rounded-t-3xl lg:rounded-2xl border-t lg:border border-gray-200 shadow-[0_-10px_40px_rgb(0,0,0,0.1)] lg:shadow-sm flex flex-col shrink-0 overflow-hidden max-h-[50vh] lg:max-h-none lg:h-full">
+            <div className="w-full lg:w-[420px] fixed lg:relative bottom-[calc(env(safe-area-inset-bottom)+60px)] lg:bottom-auto left-0 right-0 z-[2000] lg:z-auto bg-[#121E15] rounded-t-3xl lg:rounded-2xl border-t lg:border border-white/10 shadow-[0_-10px_40px_rgb(0,0,0,0.1)] lg:shadow-sm flex flex-col shrink-0 overflow-hidden max-h-[50vh] lg:max-h-none lg:h-full">
               
-              <div className={`p-5 border-b border-gray-100 flex justify-between items-start sticky top-0 z-10 ${selectedSensor.status === 'Fire Anomaly' ? 'bg-red-50' : 'bg-gray-50'}`}>
+              <div className={`p-5 border-b border-white/5 flex justify-between items-start sticky top-0 z-10 ${selectedSensor.status === 'Fire Mode' ? 'bg-red-50' : 'bg-gray-50'}`}>
                 <div>
-                  <h2 className="text-lg font-bold text-gray-900">{selectedSensor.id}</h2>
+                  <h2 className="text-lg font-bold text-white">{selectedSensor.id}</h2>
                   <div className="flex items-center gap-2 mt-1">
                     <MapPin className="w-3 h-3 text-gray-500" />
-                    <span className="text-xs text-gray-600 font-medium">{selectedSensor.district} District</span>
+                    <span className="text-xs text-gray-500 font-medium">{selectedSensor.district} District</span>
                   </div>
                 </div>
                 
                 <div className="flex items-start gap-4">
                   <div className="text-right flex flex-col items-end hidden lg:flex">
                     <div className={`px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider mb-1 ${
-                      selectedSensor.status === 'Fire Anomaly' ? 'bg-red-200 text-red-800' :
-                      selectedSensor.status === 'Warning' ? 'bg-yellow-200 text-yellow-800' :
+                      selectedSensor.status === 'Fire Mode' ? 'bg-red-200 text-red-800' :
+                      selectedSensor.status === 'High Alert' ? 'bg-yellow-200 text-yellow-800' :
                       selectedSensor.status === 'Normal' ? 'bg-green-100 text-green-800' :
                       'bg-gray-200 text-gray-700'
                     }`}>
@@ -213,7 +213,7 @@ export default function IotNetwork() {
                   </div>
                   <button 
                     onClick={() => setSelectedSensor(null)}
-                    className="p-1.5 text-gray-500 hover:text-gray-700 bg-white border border-gray-200 rounded-full transition-colors shadow-sm"
+                    className="p-1.5 text-gray-500 hover:text-gray-700 bg-[#121E15] border border-white/10 rounded-full transition-colors shadow-sm"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -226,25 +226,25 @@ export default function IotNetwork() {
                   <div>
                     <h3 className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-3">Live Telemetry</h3>
                     <div className="grid grid-cols-2 gap-3">
-                      <div className={`p-3 rounded-xl border flex flex-col ${selectedSensor.temperature > 45 ? 'bg-red-50 border-red-100 text-red-900' : 'bg-white border-gray-100'}`}>
+                      <div className={`p-3 rounded-xl border flex flex-col ${selectedSensor.temperature > 45 ? 'bg-red-50 border-red-100 text-red-900' : 'bg-[#121E15] border-white/5'}`}>
                         <div className="flex items-center gap-1.5 text-xs text-gray-500 mb-1">
                           <ThermometerSun className="w-4 h-4" /> Temp
                         </div>
                         <div className="text-2xl font-black">{selectedSensor.temperature}°C</div>
                       </div>
-                      <div className={`p-3 rounded-xl border flex flex-col ${selectedSensor.humidity < 20 && selectedSensor.status !== 'Offline' ? 'bg-orange-50 border-orange-100 text-orange-900' : 'bg-white border-gray-100'}`}>
+                      <div className={`p-3 rounded-xl border flex flex-col ${selectedSensor.humidity < 20 && selectedSensor.status !== 'Offline' ? 'bg-orange-50 border-orange-100 text-orange-900' : 'bg-[#121E15] border-white/5'}`}>
                         <div className="flex items-center gap-1.5 text-xs text-gray-500 mb-1">
                           <Droplets className="w-4 h-4" /> Humidity
                         </div>
                         <div className="text-2xl font-black">{selectedSensor.humidity}%</div>
                       </div>
-                      <div className={`p-3 rounded-xl border flex flex-col ${selectedSensor.smoke > 100 ? 'bg-red-50 border-red-100 text-red-900' : 'bg-white border-gray-100'}`}>
+                      <div className={`p-3 rounded-xl border flex flex-col ${selectedSensor.smoke > 100 ? 'bg-red-50 border-red-100 text-red-900' : 'bg-[#121E15] border-white/5'}`}>
                         <div className="flex items-center gap-1.5 text-xs text-gray-500 mb-1">
                           <Wind className="w-4 h-4" /> Smoke (PM)
                         </div>
                         <div className="text-2xl font-black">{selectedSensor.smoke} <span className="text-sm font-medium opacity-60">μg/m³</span></div>
                       </div>
-                      <div className={`p-3 rounded-xl border flex flex-col ${selectedSensor.co > 50 ? 'bg-red-50 border-red-100 text-red-900' : 'bg-white border-gray-100'}`}>
+                      <div className={`p-3 rounded-xl border flex flex-col ${selectedSensor.co > 50 ? 'bg-red-50 border-red-100 text-red-900' : 'bg-[#121E15] border-white/5'}`}>
                         <div className="flex items-center gap-1.5 text-xs text-gray-500 mb-1">
                           <Activity className="w-4 h-4" /> CO Level
                         </div>
@@ -257,18 +257,18 @@ export default function IotNetwork() {
                   <div>
                     <h3 className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-3">Hardware Health</h3>
                     <div className="grid grid-cols-2 gap-3">
-                      <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl border border-gray-100">
+                      <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl border border-white/5">
                         <Battery className={`w-5 h-5 ${selectedSensor.battery === 'Good' ? 'text-green-500' : selectedSensor.battery === 'Medium' ? 'text-yellow-500' : 'text-red-500'}`} />
                         <div>
                           <div className="text-[10px] font-bold text-gray-500 uppercase">Battery</div>
-                          <div className="text-sm font-bold text-gray-900">{selectedSensor.battery}</div>
+                          <div className="text-sm font-bold text-white">{selectedSensor.battery}</div>
                         </div>
                       </div>
-                      <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl border border-gray-100">
-                        <Signal className={`w-5 h-5 ${selectedSensor.signalStrength === 'Good' ? 'text-green-500' : selectedSensor.signalStrength === 'Weak' ? 'text-yellow-500' : 'text-gray-400'}`} />
+                      <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl border border-white/5">
+                        <Signal className={`w-5 h-5 ${selectedSensor.signalStrength === 'Good' ? 'text-green-500' : selectedSensor.signalStrength === 'Weak' ? 'text-yellow-500' : 'text-gray-500'}`} />
                         <div>
                           <div className="text-[10px] font-bold text-gray-500 uppercase">Signal</div>
-                          <div className="text-sm font-bold text-gray-900">{selectedSensor.signalStrength}</div>
+                          <div className="text-sm font-bold text-white">{selectedSensor.signalStrength}</div>
                         </div>
                       </div>
                     </div>
@@ -318,7 +318,7 @@ export default function IotNetwork() {
                               <Radio className="w-4 h-4 text-blue-600" />
                             </div>
                             <div>
-                              <div className="text-sm font-bold text-gray-900">{getGatewayForSensor(selectedSensor.gatewayId)!.location}</div>
+                              <div className="text-sm font-bold text-white">{getGatewayForSensor(selectedSensor.gatewayId)!.location}</div>
                               <div className="text-[10px] font-bold text-gray-500 uppercase">LoRa Gateway • {getGatewayForSensor(selectedSensor.gatewayId)!.connectedSensors} nodes</div>
                             </div>
                           </div>
@@ -334,33 +334,33 @@ export default function IotNetwork() {
                   )}
 
                   {/* Incident Correlation */}
-                  {selectedSensor.status === 'Fire Anomaly' && (
-                    <div className="bg-white border-2 border-red-500 rounded-xl overflow-hidden shadow-lg mt-6">
+                  {selectedSensor.status === 'Fire Mode' && (
+                    <div className="bg-[#121E15] border-2 border-red-500 rounded-xl overflow-hidden shadow-lg mt-6">
                       <div className="bg-red-500 px-4 py-2 flex items-center gap-2">
                         <ShieldAlert className="w-4 h-4 text-white" />
                         <span className="text-xs font-bold text-white uppercase tracking-wider">Automated Threat Analysis</span>
                       </div>
                       <div className="p-4 space-y-4">
                         <div>
-                          <div className="text-sm font-medium text-gray-900 mb-1">Anomaly Detected</div>
+                          <div className="text-sm font-medium text-white mb-1">Anomaly Detected</div>
                           <div className="text-xs text-gray-500">Smoke + temperature spike crossed critical threshold.</div>
                         </div>
                         
                         <div className="space-y-2">
                           <div className="flex justify-between items-center text-xs">
                             <span className="text-gray-500 font-medium flex items-center gap-1"><Cpu className="w-3 h-3" /> IoT Confidence</span>
-                            <span className="font-bold text-gray-900">98%</span>
+                            <span className="font-bold text-white">98%</span>
                           </div>
                           <div className="flex justify-between items-center text-xs">
                             <span className="text-gray-500 font-medium flex items-center gap-1"><Wifi className="w-3 h-3" /> Satellite Correlation</span>
-                            <span className="font-bold text-gray-900">50%</span>
+                            <span className="font-bold text-white">50%</span>
                           </div>
                           <div className="flex justify-between items-center text-xs">
                             <span className="text-gray-500 font-medium flex items-center gap-1"><CloudRain className="w-3 h-3" /> Weather Risk Factor</span>
-                            <span className="font-bold text-gray-900">85%</span>
+                            <span className="font-bold text-white">85%</span>
                           </div>
-                          <div className="pt-2 border-t border-gray-100 flex justify-between items-center">
-                            <span className="text-xs font-bold text-gray-900 uppercase">Overall Confidence</span>
+                          <div className="pt-2 border-t border-white/5 flex justify-between items-center">
+                            <span className="text-xs font-bold text-white uppercase">Overall Confidence</span>
                             <span className="text-sm font-black text-red-600">95%</span>
                           </div>
                         </div>
@@ -380,9 +380,9 @@ export default function IotNetwork() {
               </div>
             </div>
           ) : (
-            <div className="w-[420px] bg-white rounded-2xl border border-gray-200 shadow-sm flex flex-col items-center justify-center p-8 shrink-0 text-center">
+            <div className="w-[420px] bg-[#121E15] rounded-2xl border border-white/10 shadow-sm flex flex-col items-center justify-center p-8 shrink-0 text-center">
               <Cpu className="w-12 h-12 text-gray-200 mb-4" />
-              <h3 className="text-lg font-bold text-gray-900 mb-1">No Sensor Selected</h3>
+              <h3 className="text-lg font-bold text-white mb-1">No Sensor Selected</h3>
               <p className="text-sm text-gray-500 font-medium">Click on a ground sensor node on the map to view live telemetry, health status, and gateway connections.</p>
             </div>
           )}

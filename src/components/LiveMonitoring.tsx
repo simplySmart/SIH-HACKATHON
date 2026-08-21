@@ -19,7 +19,7 @@ const getMarkerIcon = (severity: IncidentSeverity) => {
     high: 'bg-orange-500',
     critical: 'bg-red-500',
   };
-  const color = colorMap[severity] || 'bg-white/50';
+  const color = colorMap[severity] || 'bg-[#121E15]/50';
   const shadowColor = severity === 'critical' ? 'rgba(239,68,68,0.8)' : severity === 'high' ? 'rgba(249,115,22,0.6)' : 'transparent';
   
   return L.divIcon({
@@ -54,7 +54,7 @@ function MapResetControl({ center, zoom }: { center: [number, number], zoom: num
             e.preventDefault();
             map.setView(center, zoom);
           }}
-          className="flex items-center justify-center bg-transparent hover:bg-white/5 text-gray-200 w-[34px] h-[34px]"
+          className="flex items-center justify-center bg-transparent hover:bg-[#121E15]/5 text-gray-200 w-[34px] h-[34px]"
         >
           <Crosshair className="w-4 h-4" />
         </a>
@@ -137,11 +137,11 @@ export default function LiveMonitoring() {
   return (
     <div className="flex flex-col h-full bg-transparent">
       {/* Header */}
-      <header className="flex flex-col gap-2 mb-6">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center gap-4">
-            <h1 className="text-2xl font-bold text-white uppercase tracking-tight">Live Monitoring</h1>
-            <div className="flex items-center gap-3 ml-2">
+      <header className="flex flex-col gap-2 mb-4 md:mb-6">
+        <div className="flex flex-col md:flex-row md:justify-between items-start md:items-center gap-4">
+          <div className="flex flex-wrap items-center gap-2 md:gap-4 w-full md:w-auto">
+            <h1 className="text-xl md:text-2xl font-bold text-white uppercase tracking-tight">Live Forest Map</h1>
+            <div className="flex flex-wrap items-center gap-2 md:gap-3 ml-0 md:ml-2">
               <div className="flex items-center gap-1.5 px-2.5 py-1 bg-green-500/10 rounded-md border border-green-500/20">
                 <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
                 <span className="text-[10px] font-bold text-green-400 uppercase tracking-wider">System Operational</span>
@@ -158,11 +158,11 @@ export default function LiveMonitoring() {
               )}
             </div>
           </div>
-          <div className="flex gap-4">
-            <button className="p-2 bg-transparent hover:bg-white/5 border border-white/10 rounded-full transition-colors shadow-sm">
+          <div className="flex gap-4 self-end md:self-auto hidden md:flex">
+            <button className="p-2 bg-transparent hover:bg-[#121E15]/5 border border-white/10 rounded-full transition-colors shadow-sm">
               <Bell className="w-5 h-5 text-gray-300" />
             </button>
-            <button className="p-2 bg-transparent hover:bg-white/5 border border-white/10 rounded-full transition-colors shadow-sm">
+            <button className="p-2 bg-transparent hover:bg-[#121E15]/5 border border-white/10 rounded-full transition-colors shadow-sm">
               <Maximize className="w-5 h-5 text-gray-300" />
             </button>
           </div>
@@ -207,7 +207,7 @@ export default function LiveMonitoring() {
                     </div>
                   </div>
                   
-                  <div className="w-full h-px bg-white/10"></div>
+                  <div className="w-full h-px bg-[#121E15]/10"></div>
                   
                   <div className="grid grid-cols-2 gap-4">
                     <div className="flex flex-col gap-1">
@@ -240,7 +240,7 @@ export default function LiveMonitoring() {
                     </div>
                   </div>
                   
-                  <div className="w-full h-px bg-white/10"></div>
+                  <div className="w-full h-px bg-[#121E15]/10"></div>
                   
                   <div className="flex flex-col gap-1 text-[10px] text-gray-400 pt-1">
                     <div>Updated {Math.round((Date.now() - new Date(displayWeather.retrievedAt || displayWeather.timestamp).getTime()) / 60000)} minutes ago</div>
@@ -261,7 +261,7 @@ export default function LiveMonitoring() {
                 <input 
                   type="text" 
                   placeholder="e.g. Raipur..." 
-                  className="w-full pl-3 pr-8 py-2 bg-white/5 border border-white/10 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all"
+                  className="w-full pl-3 pr-8 py-2 bg-[#121E15]/5 border border-white/10 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -273,7 +273,7 @@ export default function LiveMonitoring() {
               </div>
             </div>
 
-            <div className="w-full h-px bg-gray-100 mb-4"></div>
+            <div className="w-full h-px bg-white/10 mb-4"></div>
 
             <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Severity & Status</h4>
             <div className="space-y-1.5 flex-1 overflow-y-auto pr-1">
@@ -282,7 +282,7 @@ export default function LiveMonitoring() {
                   key={f}
                   onClick={() => setFilter(f)}
                   className={`w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center justify-between ${
-                    filter === f ? 'bg-white/10 shadow-sm border border-white/20 text-green-400' : 'text-gray-400 hover:bg-black/5 border border-transparent'
+                    filter === f ? 'bg-[#121E15]/10 shadow-sm border border-white/20 text-green-400' : 'text-gray-400 hover:bg-black/5 border border-transparent'
                   }`}
                 >
                   {f}
@@ -419,7 +419,7 @@ export default function LiveMonitoring() {
             
             {/* Legend inside map container */}
             <div className="absolute bottom-6 left-6 z-[1000] pointer-events-auto">
-              <div className="bg-white/95 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 flex flex-col gap-2 shadow-lg">
+              <div className="bg-[#121E15]/95 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 flex flex-col gap-2 shadow-lg">
                 <span className="text-xs font-bold text-white uppercase tracking-wider mb-1">Legend</span>
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-2">
@@ -458,7 +458,7 @@ export default function LiveMonitoring() {
            <div className="w-full lg:w-80 fixed lg:relative bottom-[calc(env(safe-area-inset-bottom)+60px)] lg:bottom-auto left-0 right-0 z-[2000] lg:z-auto bg-[#0f1912]/95 lg:bg-[#0f1912]/90 backdrop-blur-3xl rounded-t-3xl lg:rounded-3xl p-6 shadow-[0_-10px_40px_rgb(0,0,0,0.2)] lg:shadow-[0_12px_40px_rgb(0,0,0,0.08)] border-t lg:border border-white/10 overflow-y-auto max-h-[50vh] lg:max-h-none lg:shrink-0 flex flex-col">
              <button 
                onClick={() => setSelectedIncident(null)} 
-               className="absolute top-4 right-4 p-1.5 text-gray-400 hover:text-white bg-white/5 hover:bg-white/10 rounded-full transition-colors"
+               className="absolute top-4 right-4 p-1.5 text-gray-400 hover:text-white bg-[#121E15]/5 hover:bg-[#121E15]/10 rounded-full transition-colors"
              >
                <X className="w-5 h-5" />
              </button>

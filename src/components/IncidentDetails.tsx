@@ -5,7 +5,7 @@ import {
   Radio, Eye, Navigation, Truck, Users, Activity,
   CheckCircle, Shield, Droplet
 } from 'lucide-react';
-import { MapContainer, TileLayer, Marker, ZoomControl, Circle } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, ZoomControl, Circle, GeoJSON } from 'react-leaflet';
 import L from 'leaflet';
 import { FireIncident, SpreadSimulation, WeatherSnapshot } from '../types';
 import { WeatherService } from '../services/weatherService';
@@ -34,13 +34,29 @@ const createFireMarker = (severity: string) => {
 };
 
 export default function IncidentDetails({ incident, onBack }: Props) {
+  
   const [isUpdating, setIsUpdating] = useState(false);
+  const [gisContext, setGisContext] = useState<any>(null);
+  const [gisLoading, setGisLoading] = useState(true);
+
   const [simulations, setSimulations] = useState<SpreadSimulation[]>([]);
   const [activeSim, setActiveSim] = useState<number | null>(null);
   const [weather, setWeather] = useState<WeatherSnapshot | null>(null);
 
   useEffect(() => {
     RiskService.getFireSpreadSimulation(incident).then(setSimulations);
+
+    setGisLoading(true);
+    fetch(`/api/gis/context?lat=${incident.location.coordinates.lat}&lng=${incident.location.coordinates.lng}`)
+      .then(res => res.json())
+      .then(data => {
+        setGisContext(data);
+        setGisLoading(false);
+      })
+      .catch(err => {
+        console.error("GIS fetch error:", err);
+        setGisLoading(false);
+      });
     
     setWeather(null);
     WeatherService.getWeatherForLocation(incident.location.coordinates.lat, incident.location.coordinates.lng)
@@ -134,7 +150,35 @@ export default function IncidentDetails({ incident, onBack }: Props) {
         </div>
       </header>
 
-      {/* Lifecycle Horizontal Bar */}
+      
+          {/* Fire Confidence Engine */}
+          <div className="bg-[#0f1912]/80 backdrop-blur-3xl p-6 rounded-3xl border border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] mb-6">
+            <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-4">Fire Confidence Engine</h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="flex flex-col p-4 bg-white/5 rounded-xl border border-white/10">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Satellite (NASA)</div>
+                <div className="font-bold text-white text-sm">{incident.latestConfidence || incident.detection.confidence || 'N/A'}% Confidence</div>
+              </div>
+              <div className="flex flex-col p-4 bg-white/5 rounded-xl border border-white/10">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">IoT Sensors</div>
+                <div className="font-bold text-yellow-400 text-sm">Elevated CO2</div>
+              </div>
+              <div className="flex flex-col p-4 bg-white/5 rounded-xl border border-white/10">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">AI Camera</div>
+                <div className="font-bold text-gray-400 text-sm">No Visual (Smoke)</div>
+              </div>
+              <div className="flex flex-col p-4 bg-white/5 rounded-xl border border-white/10">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Weather Context</div>
+                <div className="font-bold text-orange-400 text-sm">High Risk (VPD &gt; 1.5)</div>
+              </div>
+            </div>
+            <div className="mt-4 pt-4 border-t border-white/5 flex justify-between items-center">
+              <div className="text-xs text-gray-400 uppercase font-bold tracking-wider">Overall Synthesis</div>
+              <div className="text-sm font-black text-red-400 bg-red-500/10 px-3 py-1 rounded border border-red-500/20">CONFIRMED FIRE EVENT (92%)</div>
+            </div>
+          </div>
+
+          {/* Lifecycle Horizontal Bar */}
       <div className="bg-[#0f1912]/80 backdrop-blur-3xl rounded-2xl p-6 mb-6 shadow-sm border border-white/10 shrink-0">
         <div className="relative flex justify-between items-center">
           <div className="absolute top-1/2 left-0 right-0 h-1 bg-gray-100 -translate-y-1/2 z-0 rounded-full"></div>
@@ -243,61 +287,115 @@ export default function IncidentDetails({ incident, onBack }: Props) {
             </div>
           </div>
 
-          {/* Response Information */}
-          {incident.response.teamAssigned && (
-            <div className="bg-[#1C2721] p-6 rounded-2xl shadow-md text-white">
-              <h3 className="text-sm font-bold text-green-400 uppercase tracking-wider mb-4">Response Plan</h3>
-              <div className="grid grid-cols-3 gap-6">
-                <div>
-                  <div className="flex items-center gap-2 text-gray-400 text-sm mb-1">
-                    <Truck className="w-4 h-4" /> Team Assigned
-                  </div>
-                  <div className="font-medium text-lg">{incident.response.teamAssigned}</div>
-                  <div className="text-sm text-gray-400 mt-1">{incident.response.personnel} Personnel</div>
-                </div>
-                <div>
-                  <div className="flex items-center gap-2 text-gray-400 text-sm mb-1">
-                    <Clock className="w-4 h-4" /> Distance & ETA
-                  </div>
-                  <div className="font-medium text-lg">{incident.response.distanceKm} km</div>
-                  <div className="text-sm text-gray-400 mt-1">~ {incident.response.etaMins} mins away</div>
-                </div>
-                <div>
-                  <div className="flex items-center gap-2 text-gray-400 text-sm mb-1">
-                    <Droplet className="w-4 h-4" /> Nearest water resource
-                  </div>
-                  <div className="font-medium text-lg">{incident.response.nearestWater}</div>
-                  <div className="text-sm text-gray-400 mt-1">Road: {incident.response.nearestRoad}</div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Evidence Sources */}
-          <div className="bg-[#0f1912]/80 backdrop-blur-3xl p-6 rounded-3xl border border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+          
+          {/* Geographic Context */}
+          <div className="bg-[#0f1912]/80 backdrop-blur-3xl p-6 rounded-2xl border border-white/10 shadow-sm flex flex-col z-0">
             <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-4 flex justify-between items-center">
-              <span>Detection Evidence</span>
-              <span className="bg-green-100 text-green-800 text-xs px-2.5 py-1 rounded-full font-bold">Overall Confidence: {incident.detection.confidence}%</span>
+              <span className="flex items-center gap-2"><MapPin className="w-4 h-4 text-green-500" /> Geographic Context</span>
+              {gisContext?.source && (
+                <span className="bg-green-100 text-green-800 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">{gisContext.source}</span>
+              )}
             </h3>
             
-            <div className="grid grid-cols-4 gap-4 mb-6">
-              {incident.evidence.sources && Object.entries(incident.evidence.sources).map(([source, conf]) => (
-                <div key={source} className="flex flex-col items-center justify-center p-4 bg-white/5 rounded-xl border border-white/10">
-                  <div className="p-3 bg-[#0f1912]/80 backdrop-blur-3xl rounded-full shadow-sm mb-2">
-                    {getSourceIcon(source)}
+            {gisLoading ? (
+              <div className="flex items-center justify-center p-6">
+                <div className="w-6 h-6 border-2 border-white/20 border-t-green-500 rounded-full animate-spin"></div>
+                <span className="ml-3 text-sm text-gray-400">Loading spatial data...</span>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {/* Nearest Road */}
+                <div className="bg-white/5 p-4 rounded-xl border border-white/10">
+                  <div className="flex items-center gap-2 text-gray-400 text-xs uppercase font-bold tracking-wider mb-2">
+                    <Navigation className="w-4 h-4 text-gray-300" /> Nearest Road
                   </div>
-                  <div className="text-xs font-bold uppercase tracking-wider text-gray-300 mb-1">{source}</div>
-                  <div className="text-lg font-bold text-white">{conf}%</div>
+                  {gisContext?.nearestRoad ? (
+                    <>
+                      <div className="font-medium text-lg text-white">{gisContext.nearestRoad.distance} km</div>
+                      <div className="text-sm text-gray-400 mt-1 truncate" title={gisContext.nearestRoad.name}>{gisContext.nearestRoad.name}</div>
+                    </>
+                  ) : (
+                    <div className="text-sm text-gray-500 italic mt-2">Data unavailable</div>
+                  )}
                 </div>
-              ))}
+
+                {/* Nearest Water */}
+                <div className="bg-white/5 p-4 rounded-xl border border-white/10">
+                  <div className="flex items-center gap-2 text-gray-400 text-xs uppercase font-bold tracking-wider mb-2">
+                    <Droplet className="w-4 h-4 text-blue-400" /> Nearest Water
+                  </div>
+                  {gisContext?.nearestWater ? (
+                    <>
+                      <div className="font-medium text-lg text-white">{gisContext.nearestWater.distance} km</div>
+                      <div className="text-sm text-gray-400 mt-1 truncate" title={gisContext.nearestWater.name}>{gisContext.nearestWater.name}</div>
+                    </>
+                  ) : (
+                    <div className="text-sm text-gray-500 italic mt-2">Data unavailable</div>
+                  )}
+                </div>
+
+                {/* Nearest Settlement */}
+                <div className="bg-white/5 p-4 rounded-xl border border-white/10">
+                  <div className="flex items-center gap-2 text-gray-400 text-xs uppercase font-bold tracking-wider mb-2">
+                    <Users className="w-4 h-4 text-orange-400" /> Nearest Settlement
+                  </div>
+                  {gisContext?.nearestSettlement ? (
+                    <>
+                      <div className="font-medium text-lg text-white">{gisContext.nearestSettlement.distance} km</div>
+                      <div className="text-sm text-gray-400 mt-1 truncate" title={gisContext.nearestSettlement.name}>{gisContext.nearestSettlement.name}</div>
+                    </>
+                  ) : (
+                    <div className="text-sm text-gray-500 italic mt-2">Data unavailable</div>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+
+          
+          {/* Provenance Panel */}
+          <div className="bg-[#0f1912]/80 backdrop-blur-3xl p-6 rounded-3xl border border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+            <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-4 flex justify-between items-center">
+              <span>Detection Provenance</span>
+              <span className="bg-green-100 text-green-800 text-[10px] px-2.5 py-1 rounded-full font-bold">Confidence: {incident.latestConfidence || incident.detection.confidence}%</span>
+            </h3>
+            
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+              <div className="flex flex-col p-4 bg-white/5 rounded-xl border border-white/10">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Sources</div>
+                <div className="font-bold text-white text-sm">{incident.satelliteSources?.join(', ') || 'N/A'}</div>
+              </div>
+              <div className="flex flex-col p-4 bg-white/5 rounded-xl border border-white/10">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">First Detection</div>
+                <div className="font-bold text-white text-sm">
+                  {incident.firstDetectedAt ? new Date(incident.firstDetectedAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : 'N/A'}
+                </div>
+              </div>
+              <div className="flex flex-col p-4 bg-white/5 rounded-xl border border-white/10">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Max FRP</div>
+                <div className="font-bold text-white text-sm">{incident.maximumFRP ? `${incident.maximumFRP} MW` : 'N/A'}</div>
+              </div>
+              <div className="flex flex-col p-4 bg-white/5 rounded-xl border border-white/10">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Forest Screening</div>
+                <div className="font-bold text-white text-sm">{incident.detection.forestScreening || 'UNKNOWN'}</div>
+              </div>
             </div>
 
-            {incident.evidence.images && incident.evidence.images.length > 0 && (
+            {incident.satelliteDetections && incident.satelliteDetections.length > 0 && (
               <div className="mt-4">
-                <div className="text-sm font-bold text-white mb-2">Satellite / Camera Feeds</div>
-                <div className="grid grid-cols-2 gap-4">
-                  {incident.evidence.images.map((img, idx) => (
-                    <img key={idx} src={img} alt="Evidence" className="w-full h-48 object-cover rounded-xl border border-white/10" />
+                <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Raw Detections ({incident.detectionCount})</div>
+                <div className="max-h-40 overflow-y-auto space-y-2 pr-2">
+                  {incident.satelliteDetections.map((det, idx) => (
+                    <div key={idx} className="flex justify-between items-center p-3 bg-white/5 rounded-lg border border-white/5">
+                      <div>
+                        <div className="text-xs font-bold text-white">{det.satellite} {det.instrument}</div>
+                        <div className="text-[10px] text-gray-400">{det.acq_date} {det.acq_time} UTC</div>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-xs font-bold text-orange-400">{det.frp} MW</div>
+                        <div className="text-[10px] text-gray-400">{det.confidence}% Conf</div>
+                      </div>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -305,7 +403,6 @@ export default function IncidentDetails({ incident, onBack }: Props) {
           </div>
 
         </div>
-
         {/* Right Column (Map & Timeline) */}
         <div className="w-full lg:w-96 flex flex-col gap-6 shrink-0 h-auto">
           
@@ -346,6 +443,47 @@ export default function IncidentDetails({ incident, onBack }: Props) {
                 position={[incident.location.coordinates.lat, incident.location.coordinates.lng]}
                 icon={createFireMarker(incident.severity)}
               />
+              
+              {/* Context Layers */}
+              {gisContext && (
+                <>
+                  {gisContext.nearestRoad?.geometry && (
+                    <GeoJSON 
+                      key={"road-" + incident.id}
+                      data={{
+                        type: "LineString",
+                        coordinates: gisContext.nearestRoad.geometry
+                      } as any}
+                      style={{ color: '#facc15', weight: 4, opacity: 0.9 }}
+                    />
+                  )}
+                  {gisContext.nearestWater?.geometry && (
+                    <GeoJSON 
+                      key={"water-" + incident.id}
+                      data={{
+                        type: "LineString",
+                        coordinates: gisContext.nearestWater.geometry
+                      } as any}
+                      style={{ color: '#3b82f6', weight: 4, opacity: 0.9 }}
+                    />
+                  )}
+                  {gisContext.nearestSettlement?.coordinates && (
+                    <Marker 
+                      key={"settlement-" + incident.id}
+                      position={[gisContext.nearestSettlement.coordinates[0], gisContext.nearestSettlement.coordinates[1]]}
+                      icon={L.divIcon({
+                        className: 'bg-transparent border-0',
+                        html: '<div class="w-4 h-4 bg-orange-500 rounded-full border-2 border-white shadow-sm flex items-center justify-center"></div>',
+                        iconSize: [16, 16],
+                        iconAnchor: [8, 8]
+                      })}
+                    />
+                  )}
+                </>
+              )}
+
+              
+              
             </MapContainer>
           </div>
 

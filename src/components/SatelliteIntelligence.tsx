@@ -91,12 +91,12 @@ export default function SatelliteIntelligence() {
 
   return (
     <div className="flex flex-col h-full bg-[#F5F7F6] overflow-hidden rounded-3xl">
-      <header className="px-6 py-5 shrink-0 flex justify-between items-center bg-white border-b border-gray-100">
+      <header className="px-4 md:px-6 py-4 md:py-5 shrink-0 flex flex-col md:flex-row md:justify-between items-start md:items-center gap-4 bg-white border-b border-gray-100">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 uppercase tracking-tight">Satellite Intelligence</h1>
+          <h1 className="text-xl md:text-2xl font-bold text-gray-900 uppercase tracking-tight">Satellite Intelligence</h1>
           <p className="text-sm text-gray-500 font-medium mt-1">Near-real-time fire detection and satellite evidence.</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2 md:gap-3">
           <div className="flex items-center gap-1.5 px-2.5 py-1 bg-green-50 rounded-md border border-green-100">
             <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
             <span className="text-[10px] font-bold text-green-700 uppercase tracking-wider">System Operational</span>

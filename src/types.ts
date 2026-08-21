@@ -33,6 +33,14 @@ export interface FireIncident {
   severity: IncidentSeverity;
   title: string;
   location: LocationHierarchy;
+  firstDetectedAt?: string;
+  lastDetectedAt?: string;
+  detectionCount?: number;
+  satelliteSources?: string[];
+  latestConfidence?: number;
+  maximumFRP?: number;
+  satelliteDetections?: any[];
+
   detection: {
     method: 'satellite' | 'sensor' | 'manual' | 'combined';
     confidence: number;

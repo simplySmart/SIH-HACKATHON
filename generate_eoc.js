@@ -1,4 +1,6 @@
+import fs from 'fs';
 
+const content = `
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
@@ -80,7 +82,7 @@ export default function CommandCenter() {
             disabled={isSyncing}
             className="flex items-center gap-2 bg-green-600 hover:bg-green-500 disabled:opacity-50 text-white rounded-xl px-4 py-2.5 shadow-sm text-sm font-bold transition-all"
           >
-            <RefreshCw className={`w-4 h-4 ${isSyncing ? 'animate-spin' : ''}`} />
+            <RefreshCw className={\`w-4 h-4 \${isSyncing ? 'animate-spin' : ''}\`} />
             {isSyncing ? 'Syncing FIRMS...' : 'Sync Data'}
           </button>
         </div>
@@ -132,7 +134,7 @@ export default function CommandCenter() {
               Respond Now
             </button>
             <button 
-              onClick={() => navigate(`/incidents/${topPriority.id}`)}
+              onClick={() => navigate(\`/incidents/\${topPriority.id}\`)}
               className="px-5 py-2.5 bg-white/10 hover:bg-white/20 text-white text-sm font-bold rounded-xl border border-white/10 transition-colors"
             >
               Open Incident Command
@@ -174,7 +176,7 @@ export default function CommandCenter() {
                     position={[inc.location.coordinates.lat, inc.location.coordinates.lng]}
                     icon={L.divIcon({
                       className: 'bg-transparent border-0',
-                      html: `<div class="w-6 h-6 ${inc.severity === 'critical' ? 'bg-red-500' : 'bg-orange-500'} rounded-full flex items-center justify-center border-2 border-white/20 shadow-[0_0_10px_rgba(239,68,68,0.5)]"><div class="w-2 h-2 bg-white rounded-full"></div></div>`,
+                      html: \`<div class="w-6 h-6 \${inc.severity === 'critical' ? 'bg-red-500' : 'bg-orange-500'} rounded-full flex items-center justify-center border-2 border-white/20 shadow-[0_0_10px_rgba(239,68,68,0.5)]"><div class="w-2 h-2 bg-white rounded-full"></div></div>\`,
                       iconSize: [24, 24],
                       iconAnchor: [12, 12]
                     })}
@@ -183,7 +185,7 @@ export default function CommandCenter() {
                       <div className="p-1">
                         <div className="font-bold text-gray-900">{inc.id}</div>
                         <div className="text-xs text-gray-600 capitalize">{inc.severity} Severity</div>
-                        <button onClick={() => navigate(`/incidents/${inc.id}`)} className="mt-2 text-[10px] bg-red-600 text-white px-2 py-1 rounded w-full font-bold">Open Command</button>
+                        <button onClick={() => navigate(\`/incidents/\${inc.id}\`)} className="mt-2 text-[10px] bg-red-600 text-white px-2 py-1 rounded w-full font-bold">Open Command</button>
                       </div>
                     </Popup>
                   </Marker>
@@ -220,7 +222,7 @@ export default function CommandCenter() {
                       <td className="px-4 py-3 text-gray-400">{inc.location.beat}</td>
                       <td className="px-4 py-3 font-bold text-white">{inc.latestConfidence || inc.detection.confidence}%</td>
                       <td className="px-4 py-3">
-                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase border ${getSeverityColor(inc.severity)}`}>
+                        <span className={\`px-2 py-0.5 rounded text-[10px] font-bold uppercase border \${getSeverityColor(inc.severity)}\`}>
                           {inc.severity}
                         </span>
                       </td>
@@ -228,7 +230,7 @@ export default function CommandCenter() {
                       <td className="px-4 py-3 text-gray-400">{inc.status === 'responding' ? 'PU-01 Bravo' : 'Pending'}</td>
                       <td className="px-4 py-3 text-gray-400">{inc.detection.time}</td>
                       <td className="px-4 py-3 text-right">
-                        <button onClick={() => navigate(`/incidents/${inc.id}`)} className="p-1.5 bg-white/10 hover:bg-white/20 rounded-md transition-colors text-white">
+                        <button onClick={() => navigate(\`/incidents/\${inc.id}\`)} className="p-1.5 bg-white/10 hover:bg-white/20 rounded-md transition-colors text-white">
                           <ChevronRight className="w-4 h-4" />
                         </button>
                       </td>
@@ -393,3 +395,7 @@ export default function CommandCenter() {
     </div>
   );
 }
+`
+
+fs.writeFileSync('src/components/CommandCenter.tsx', content);
+

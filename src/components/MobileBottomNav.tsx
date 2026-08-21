@@ -69,7 +69,7 @@ export default function MobileBottomNav() {
               >
                 {({ isActive }) => (
                   <>
-                    <item.icon className={`w-6 h-6 ${isActive ? 'text-green-600' : 'text-gray-500'}`} />
+                    <item.icon className={`w-6 h-6 ${isActive ? 'text-green-400' : 'text-gray-500'}`} />
                     <span className="text-[10px] font-bold text-center">{item.label}</span>
                   </>
                 )}
@@ -88,7 +88,7 @@ export default function MobileBottomNav() {
               to={item.path}
               className={({ isActive }) => 
                 `flex-1 flex flex-col items-center justify-center h-full gap-1 transition-colors ${
-                  isActive ? 'text-green-600' : 'text-gray-500 hover:text-gray-900'
+                  isActive ? 'text-green-600' : 'text-gray-500 hover:text-white'
                 }`
               }
             >

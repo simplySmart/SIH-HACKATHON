@@ -122,12 +122,12 @@ export default function RiskDashboard() {
 
   return (
     <div className="flex flex-col h-full bg-transparent overflow-hidden rounded-3xl">
-      <header className="px-6 py-5 shrink-0 flex justify-between items-center bg-white border-b border-white/10">
+      <header className="px-4 md:px-6 py-4 md:py-5 shrink-0 flex flex-col md:flex-row md:justify-between items-start md:items-center gap-4 bg-white border-b border-white/10">
         <div>
-          <h1 className="text-2xl font-bold text-white uppercase tracking-tight">Risk & Forecast Intelligence</h1>
+          <h1 className="text-xl md:text-2xl font-bold text-white uppercase tracking-tight">Risk & Forecast Intelligence</h1>
           <p className="text-sm text-gray-400 font-medium">Operational Fire Risk Assessment</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2 md:gap-3">
           <div className="flex items-center gap-1.5 px-2.5 py-1 bg-green-500/10 rounded-md border border-green-500/20">
             <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
             <span className="text-[10px] font-bold text-green-400 uppercase tracking-wider">System Operational</span>

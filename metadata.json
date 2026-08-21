@@ -1,6 +1,6 @@
 {
-  "name": "VanRakshak Dashboard",
-  "description": "Real-time Forest Fire Detection System Dashboard",
+  "name": "AFIRN",
+  "description": "Adaptive Forest Intelligence & Response Network for Chhattisgarh Forest Department",
   "requestFramePermissions": [],
   "majorCapabilities": [
     "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
