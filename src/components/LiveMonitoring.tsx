@@ -176,9 +176,9 @@ export default function LiveMonitoring() {
       </header>
 
       {/* Main layout */}
-      <div className="flex-1 flex gap-6 overflow-hidden">
-        {/* Left Sidebar (Telemetry & Filters) */}
-        <div className="w-72 flex flex-col gap-6 overflow-y-auto pb-4 shrink-0">
+      <div className="flex-1 flex flex-col lg:flex-row gap-6 overflow-hidden relative">
+        {/* Left Sidebar (Telemetry & Filters) - Desktop Only */}
+        <div className="hidden lg:flex w-72 flex-col gap-6 overflow-y-auto pb-4 shrink-0">
           
           {/* Telemetry Card */}
           <div className="bg-gradient-to-br from-[#111c16] to-[#0a120d] rounded-3xl p-6 text-white shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-white/5 relative overflow-hidden">
@@ -296,6 +296,18 @@ export default function LiveMonitoring() {
         {/* Map Container */}
         <div className="flex-1 relative rounded-3xl overflow-hidden shadow-[0_12px_40px_rgb(0,0,0,0.08)] border border-white/10 bg-transparent flex flex-col z-0">
           
+          {/* Mobile Filter Button */}
+          <button 
+            className="absolute top-4 right-4 z-[1000] lg:hidden bg-[#0f1912]/90 backdrop-blur-md p-3 rounded-xl border border-white/10 shadow-lg text-white"
+            onClick={() => {
+              // Simple native prompt for now, or just leave it for demo
+              const newFilter = window.prompt("Enter filter (All, Critical, High, Moderate, Low, Verified, Unverified, Forest, Near Forest, Non-Forest):", filter);
+              if (newFilter) setFilter(newFilter);
+            }}
+          >
+            <Thermometer className="w-5 h-5 text-gray-300" />
+          </button>
+
           <MapContainer 
             center={mapCenter} 
             zoom={defaultZoom} 
@@ -441,12 +453,12 @@ export default function LiveMonitoring() {
           </MapContainer>
         </div>
 
-        {/* Selected Incident Right Panel */}
+        {/* Selected Incident Right Panel / Bottom Sheet */}
         {selectedIncident && (
-           <div className="w-80 bg-[#0f1912]/90 backdrop-blur-3xl rounded-3xl p-6 shadow-[0_12px_40px_rgb(0,0,0,0.08)] border border-white/10 overflow-y-auto shrink-0 relative flex flex-col">
+           <div className="w-full lg:w-80 fixed lg:relative bottom-[calc(env(safe-area-inset-bottom)+60px)] lg:bottom-auto left-0 right-0 z-[2000] lg:z-auto bg-[#0f1912]/95 lg:bg-[#0f1912]/90 backdrop-blur-3xl rounded-t-3xl lg:rounded-3xl p-6 shadow-[0_-10px_40px_rgb(0,0,0,0.2)] lg:shadow-[0_12px_40px_rgb(0,0,0,0.08)] border-t lg:border border-white/10 overflow-y-auto max-h-[50vh] lg:max-h-none lg:shrink-0 flex flex-col">
              <button 
                onClick={() => setSelectedIncident(null)} 
-               className="absolute top-4 right-4 p-1.5 text-gray-400 hover:text-gray-300 hover:bg-gray-100 rounded-full transition-colors"
+               className="absolute top-4 right-4 p-1.5 text-gray-400 hover:text-white bg-white/5 hover:bg-white/10 rounded-full transition-colors"
              >
                <X className="w-5 h-5" />
              </button>

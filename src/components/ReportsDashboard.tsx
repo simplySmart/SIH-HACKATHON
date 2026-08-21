@@ -41,15 +41,15 @@ export default function ReportsDashboard() {
     const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
     
     return (
-      <div className="bg-white p-8 rounded-xl max-w-4xl mx-auto printable-report text-gray-900 border border-gray-200 shadow-sm" id="report-content">
-        <div className="flex justify-between items-start mb-8 pb-6 border-b-2 border-gray-900">
+      <div className="bg-white p-4 md:p-8 rounded-xl w-full max-w-4xl mx-auto printable-report text-gray-900 border border-gray-200 shadow-sm overflow-hidden" id="report-content">
+        <div className="flex flex-col md:flex-row md:justify-between items-start mb-6 md:mb-8 pb-4 md:pb-6 border-b-2 border-gray-900 gap-4">
           <div>
-            <h1 className="text-3xl font-black uppercase tracking-tight mb-2">{config.title}</h1>
+            <h1 className="text-2xl md:text-3xl font-black uppercase tracking-tight mb-2">{config.title}</h1>
             <div className="text-sm font-bold text-gray-500 flex items-center gap-2">
               <Calendar className="w-4 h-4" /> Date Generated: {today}
             </div>
           </div>
-          <div className="text-right">
+          <div className="text-left md:text-right">
             <div className="text-xl font-bold tracking-widest uppercase">VanRakshak</div>
             <div className="text-xs font-bold text-gray-500">Forest Intelligence System</div>
           </div>
@@ -62,7 +62,7 @@ export default function ReportsDashboard() {
             Currently, there are <strong className="text-red-600">{totalActive} active incidents</strong> being tracked, 
             including <strong className="text-red-600">{criticalCount} critical severity</strong> events.
           </p>
-          <div className="grid grid-cols-3 gap-4 mt-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
             <div className="p-4 bg-gray-50 rounded-lg border border-gray-200 text-center">
               <div className="text-3xl font-black">{incidents.length}</div>
               <div className="text-xs font-bold text-gray-500 uppercase mt-1">Total Monitored</div>
@@ -78,7 +78,7 @@ export default function ReportsDashboard() {
           </div>
         </div>
 
-        <div>
+        <div className="overflow-x-auto">
           <h2 className="text-lg font-bold uppercase tracking-wider mb-4 border-b border-gray-200 pb-2">Incident Roster</h2>
           <table className="w-full text-left border-collapse">
             <thead>
@@ -121,7 +121,7 @@ export default function ReportsDashboard() {
 
   return (
     <div className="flex flex-col h-full bg-[#F5F7F6] overflow-hidden rounded-3xl relative">
-      <header className="px-6 py-5 shrink-0 flex justify-between items-center bg-white border-b border-gray-100">
+      <header className="px-4 md:px-6 py-4 md:py-5 shrink-0 flex flex-col md:flex-row md:justify-between items-start md:items-center gap-4 bg-white border-b border-gray-100">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 uppercase tracking-tight">Reports Generation</h1>
           <p className="text-sm text-gray-500 font-medium">Automated operational reports and historical assessments.</p>
@@ -137,10 +137,10 @@ export default function ReportsDashboard() {
         </div>
       </header>
 
-      <div className="flex-1 overflow-y-auto p-6">
-        <div className="grid grid-cols-3 gap-6">
+      <div className="flex-1 overflow-y-auto p-4 md:p-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {REPORT_TYPES.map(report => (
-            <div key={report.id} className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 flex flex-col hover:border-blue-300 transition-colors">
+            <div key={report.id} className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4 md:p-6 flex flex-col hover:border-blue-300 transition-colors">
               <div className="flex items-start justify-between mb-4">
                 <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${report.color}`}>
                   <report.icon className="w-6 h-6" />

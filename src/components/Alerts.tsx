@@ -89,32 +89,32 @@ export default function Alerts() {
       </header>
 
       {/* Metrics */}
-      <div className="grid grid-cols-5 gap-4 mb-6 shrink-0">
-        <div className="bg-white/5 rounded-xl p-4 border border-white/10">
+      <div className="flex md:grid grid-cols-2 md:grid-cols-5 gap-4 mb-6 shrink-0 overflow-x-auto pb-2 snap-x">
+        <div className="bg-white/5 rounded-xl p-4 border border-white/10 min-w-[120px] snap-center">
           <div className="text-sm font-medium text-gray-400 mb-1">Active</div>
           <div className="text-2xl font-bold text-white">{metrics.active}</div>
         </div>
-        <div className="bg-red-500/10 rounded-xl p-4 border border-red-500/20">
+        <div className="bg-red-500/10 rounded-xl p-4 border border-red-500/20 min-w-[120px] snap-center">
           <div className="text-sm font-medium text-red-600 mb-1">Critical</div>
           <div className="text-2xl font-bold text-red-400">{metrics.critical}</div>
         </div>
-        <div className="bg-orange-50 rounded-xl p-4 border border-orange-100">
-          <div className="text-sm font-medium text-orange-600 mb-1">Under Verification</div>
+        <div className="bg-orange-50 rounded-xl p-4 border border-orange-100 min-w-[120px] snap-center">
+          <div className="text-sm font-medium text-orange-600 mb-1">Verifying</div>
           <div className="text-2xl font-bold text-orange-700">{metrics.verifying}</div>
         </div>
-        <div className="bg-purple-50 rounded-xl p-4 border border-purple-100">
+        <div className="bg-purple-50 rounded-xl p-4 border border-purple-100 min-w-[120px] snap-center">
           <div className="text-sm font-medium text-purple-600 mb-1">Responding</div>
           <div className="text-2xl font-bold text-purple-700">{metrics.responding}</div>
         </div>
-        <div className="bg-blue-50 rounded-xl p-4 border border-blue-100">
+        <div className="bg-blue-50 rounded-xl p-4 border border-blue-100 min-w-[120px] snap-center">
           <div className="text-sm font-medium text-blue-600 mb-1">Contained</div>
           <div className="text-2xl font-bold text-blue-700">{metrics.contained}</div>
         </div>
       </div>
 
       {/* Toolbar */}
-      <div className="flex justify-between items-center border-b border-white/10 mb-2 shrink-0">
-        <div className="flex gap-6 overflow-x-auto">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center border-b border-white/10 mb-4 shrink-0 gap-4 md:gap-0">
+        <div className="flex gap-6 overflow-x-auto hide-scrollbar pb-2 md:pb-0">
           {['All', 'Detected', 'Verifying', 'Confirmed', 'Responding', 'Contained', 'Extinguished'].map(tab => (
             <button 
               key={tab}
@@ -125,30 +125,86 @@ export default function Alerts() {
             </button>
           ))}
         </div>
-
-        <div className="flex items-center gap-3 pb-3">
-          <div className="relative hidden lg:block">
+        
+        <div className="flex items-center gap-2 pb-3 overflow-x-auto hide-scrollbar">
+          <div className="relative w-full md:w-auto">
             <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
             <input 
               type="text" 
-              placeholder="Search ID or District..." 
-              className="pl-9 pr-4 py-2 border border-white/10 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 w-48 xl:w-64"
+              placeholder="Search..." 
+              className="pl-9 pr-4 py-2 bg-transparent border border-white/10 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 w-full md:w-48 xl:w-64 text-white"
             />
           </div>
-          <button className="flex items-center gap-2 px-3 py-2 border border-white/10 rounded-lg text-sm text-gray-200 hover:bg-white/5 transition-colors">
+          <button className="flex items-center gap-2 px-3 py-2 border border-white/10 rounded-lg text-sm text-gray-200 hover:bg-white/5 transition-colors shrink-0">
             Severity
             <ChevronDown className="w-4 h-4 text-gray-400" />
           </button>
-          <button className="flex items-center gap-2 px-3 py-2 border border-white/10 rounded-lg text-sm text-gray-200 hover:bg-white/5 transition-colors">
+          <button className="flex items-center gap-2 px-3 py-2 border border-white/10 rounded-lg text-sm text-gray-200 hover:bg-white/5 transition-colors shrink-0">
             Source
             <ChevronDown className="w-4 h-4 text-gray-400" />
           </button>
         </div>
       </div>
 
-      {/* Table */}
+      {/* List / Table */}
       <div className="flex-1 overflow-auto">
-        <table className="w-full text-left border-collapse">
+        {/* Mobile Cards View */}
+        <div className="md:hidden grid grid-cols-1 gap-4 pb-4">
+          {filteredIncidents.length > 0 ? (
+            filteredIncidents.map((incident) => (
+              <div 
+                key={incident.id} 
+                className="bg-white/5 border border-white/10 rounded-xl p-4 cursor-pointer hover:bg-white/10 transition-colors"
+                onClick={() => navigate(`/incidents/${incident.id}`)}
+              >
+                <div className="flex justify-between items-start mb-3">
+                  <div>
+                    <div className="font-semibold text-green-400 text-sm mb-0.5">{incident.id}</div>
+                    <div className="text-xs text-gray-300 font-medium">{incident.location.district}, {incident.location.state}</div>
+                  </div>
+                  <span className={`px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${getStatusColor(incident.status)}`}>
+                    {incident.status}
+                  </span>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-y-3 gap-x-2 text-sm mb-3">
+                  <div className="flex items-center gap-2">
+                    {getSeverityIcon(incident.severity)}
+                    <span className="capitalize text-gray-200 font-medium">{incident.severity}</span>
+                  </div>
+                  <div className="text-gray-300 flex items-center gap-1.5 justify-end">
+                    {incident.detection.method === 'satellite' ? <Radio className="w-3.5 h-3.5"/> : incident.detection.method === 'sensor' ? <Activity className="w-3.5 h-3.5"/> : <Eye className="w-3.5 h-3.5"/>}
+                    <span className="capitalize">{incident.detection.method}</span>
+                  </div>
+                  <div className="text-gray-300">
+                    <span className="text-gray-500 text-xs block mb-0.5">Confidence</span>
+                    {incident.detection.confidence}%
+                  </div>
+                  <div className="text-gray-300 text-right">
+                    <span className="text-gray-500 text-xs block mb-0.5">Est. Area</span>
+                    {incident.impact.areaAffectedHa > 0 ? `${incident.impact.areaAffectedHa} ha` : '--'}
+                  </div>
+                </div>
+                
+                <div className="flex justify-between items-center pt-3 border-t border-white/10">
+                  <div className="text-xs text-gray-400">
+                    {new Date(incident.detection.time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} • {new Date(incident.detection.time).toLocaleDateString()}
+                  </div>
+                  <button className="text-xs font-semibold text-green-400 flex items-center gap-1">
+                    Details <ChevronRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="py-12 text-center text-gray-400">
+              No incidents match the selected filter.
+            </div>
+          )}
+        </div>
+
+        {/* Desktop Table View */}
+        <table className="hidden md:table w-full text-left border-collapse">
           <thead className="sticky top-0 bg-transparent z-10">
             <tr>
               <th className="py-4 font-semibold text-xs uppercase tracking-wider text-gray-400">Incident ID & District</th>

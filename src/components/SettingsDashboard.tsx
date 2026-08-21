@@ -12,10 +12,10 @@ export default function SettingsDashboard() {
   return (
     <div className="flex flex-col h-full bg-[#F5F7F6] overflow-hidden rounded-3xl">
       {/* Header */}
-      <header className="px-6 py-4 shrink-0 flex justify-between items-center bg-white border-b border-gray-100">
+      <header className="px-4 md:px-6 py-4 shrink-0 flex justify-between items-center bg-white border-b border-gray-100">
         <div>
           <h1 className="text-xl font-black text-gray-900 uppercase tracking-tight flex items-center gap-2">
-            <Settings className="w-6 h-6 text-gray-700" /> System Settings
+            <Settings className="w-5 h-5 md:w-6 md:h-6 text-gray-700" /> <span className="hidden sm:inline">System Settings</span><span className="sm:hidden">Settings</span>
           </h1>
         </div>
         <div className="flex items-center gap-3">
@@ -25,10 +25,10 @@ export default function SettingsDashboard() {
         </div>
       </header>
 
-      <div className="flex-1 overflow-y-auto p-6 space-y-6">
-        <div className="grid grid-cols-2 gap-6">
+      <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
           {/* Data Sources */}
-          <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
+          <div className="bg-white p-4 md:p-6 rounded-2xl border border-gray-200 shadow-sm">
             <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-6 flex items-center gap-2">
               <Database className="w-5 h-5 text-blue-500" /> Data Sources & Integration
             </h3>
@@ -101,7 +101,7 @@ export default function SettingsDashboard() {
           </div>
 
           {/* System Config */}
-          <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
+          <div className="bg-white p-4 md:p-6 rounded-2xl border border-gray-200 shadow-sm">
             <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-6 flex items-center gap-2">
               <Settings className="w-5 h-5 text-gray-500" /> Operation Parameters
             </h3>

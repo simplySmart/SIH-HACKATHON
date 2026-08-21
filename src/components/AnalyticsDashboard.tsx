@@ -86,14 +86,14 @@ export default function AnalyticsDashboard() {
 
   return (
     <div className="flex flex-col h-full bg-[#F5F7F6] overflow-hidden rounded-3xl">
-      <header className="px-6 py-5 shrink-0 flex justify-between items-center bg-white border-b border-gray-100">
+      <header className="px-4 md:px-6 py-4 md:py-5 shrink-0 flex flex-col md:flex-row md:justify-between items-start md:items-center gap-4 bg-white border-b border-gray-100">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 uppercase tracking-tight">Operational Analytics</h1>
           <p className="text-sm text-gray-500 font-medium">System-wide intelligence and performance metrics.</p>
         </div>
         
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-3 mr-2">
+        <div className="flex flex-wrap items-center gap-2 md:gap-4 w-full md:w-auto">
+          <div className="flex items-center gap-2 mr-0 md:mr-2">
             <div className="flex items-center gap-1.5 px-2.5 py-1 bg-green-50 rounded-md border border-green-100">
               <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
               <span className="text-[10px] font-bold text-green-700 uppercase tracking-wider">System Operational</span>
@@ -102,12 +102,12 @@ export default function AnalyticsDashboard() {
               Demo Data
             </span>
           </div>
-          <div className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-xl border border-gray-200">
-            <Calendar className="w-4 h-4 text-gray-500" />
+          <div className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-xl border border-gray-200 flex-1 md:flex-none">
+            <Calendar className="w-4 h-4 text-gray-500 shrink-0" />
             <select 
               value={timeRange}
               onChange={(e) => setTimeRange(e.target.value)}
-              className="bg-transparent text-sm font-bold text-gray-900 outline-none cursor-pointer"
+              className="bg-transparent text-sm font-bold text-gray-900 outline-none cursor-pointer w-full"
             >
               <option value="7d">Last 7 Days</option>
               <option value="30d">Last 30 Days</option>
@@ -115,14 +115,14 @@ export default function AnalyticsDashboard() {
             </select>
           </div>
           
-          <div className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-xl border border-gray-200">
-            <MapPin className="w-4 h-4 text-gray-500" />
+          <div className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-xl border border-gray-200 flex-1 md:flex-none">
+            <MapPin className="w-4 h-4 text-gray-500 shrink-0" />
             <select 
               value={selectedDistrict}
               onChange={(e) => setSelectedDistrict(e.target.value)}
-              className="bg-transparent text-sm font-bold text-gray-900 outline-none cursor-pointer"
+              className="bg-transparent text-sm font-bold text-gray-900 outline-none cursor-pointer w-full"
             >
-              <option value="All">All Districts (Chhattisgarh)</option>
+              <option value="All">All Districts</option>
               {uniqueDistricts.map(d => (
                 <option key={d} value={d}>{d}</option>
               ))}
@@ -131,11 +131,11 @@ export default function AnalyticsDashboard() {
         </div>
       </header>
 
-      <div className="flex-1 overflow-y-auto p-6">
+      <div className="flex-1 overflow-y-auto p-4 md:p-6">
         
         {/* KPI Cards */}
-        <div className="grid grid-cols-5 gap-4 mb-6">
-          <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm flex flex-col justify-between">
+        <div className="flex md:grid grid-cols-2 md:grid-cols-5 gap-4 mb-6 overflow-x-auto pb-2 snap-x hide-scrollbar">
+          <div className="bg-white p-4 md:p-5 rounded-2xl border border-gray-200 shadow-sm flex flex-col justify-between min-w-[160px] snap-center shrink-0">
             <div className="flex items-center gap-2 mb-3">
               <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center">
                 <Flame className="w-4 h-4 text-orange-600" />
@@ -148,7 +148,7 @@ export default function AnalyticsDashboard() {
             </div>
           </div>
           
-          <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm flex flex-col justify-between">
+          <div className="bg-white p-4 md:p-5 rounded-2xl border border-gray-200 shadow-sm flex flex-col justify-between min-w-[160px] snap-center shrink-0">
             <div className="flex items-center gap-2 mb-3">
               <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center">
                 <Activity className="w-4 h-4 text-red-600" />
@@ -159,7 +159,7 @@ export default function AnalyticsDashboard() {
             <div className="text-xs font-medium text-gray-500 mt-2">Currently requiring response</div>
           </div>
           
-          <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm flex flex-col justify-between">
+          <div className="bg-white p-4 md:p-5 rounded-2xl border border-gray-200 shadow-sm flex flex-col justify-between min-w-[160px] snap-center shrink-0">
             <div className="flex items-center gap-2 mb-3">
               <div className="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center">
                 <MapPin className="w-4 h-4 text-amber-600" />
@@ -172,7 +172,7 @@ export default function AnalyticsDashboard() {
             </div>
           </div>
           
-          <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm flex flex-col justify-between">
+          <div className="bg-white p-4 md:p-5 rounded-2xl border border-gray-200 shadow-sm flex flex-col justify-between min-w-[160px] snap-center shrink-0">
             <div className="flex items-center gap-2 mb-3">
               <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
                 <Clock className="w-4 h-4 text-blue-600" />
@@ -185,7 +185,7 @@ export default function AnalyticsDashboard() {
             </div>
           </div>
           
-          <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm flex flex-col justify-between">
+          <div className="bg-white p-4 md:p-5 rounded-2xl border border-gray-200 shadow-sm flex flex-col justify-between min-w-[160px] snap-center shrink-0">
             <div className="flex items-center gap-2 mb-3">
               <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
                 <ShieldCheck className="w-4 h-4 text-green-600" />
@@ -198,9 +198,9 @@ export default function AnalyticsDashboard() {
         </div>
 
         {/* Charts Grid */}
-        <div className="grid grid-cols-2 gap-6 mb-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 mb-6">
           {/* Timeline Chart */}
-          <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
+          <div className="bg-white p-4 md:p-6 rounded-2xl border border-gray-200 shadow-sm">
             <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-6">Incidents Over Time</h3>
             <div className="h-64 w-full">
               <ResponsiveContainer width="100%" height="100%">
@@ -225,7 +225,7 @@ export default function AnalyticsDashboard() {
           </div>
 
           {/* District Breakdown */}
-          <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
+          <div className="bg-white p-4 md:p-6 rounded-2xl border border-gray-200 shadow-sm">
             <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-6">Incidents by District</h3>
             <div className="h-64 w-full">
               <ResponsiveContainer width="100%" height="100%">
@@ -248,9 +248,9 @@ export default function AnalyticsDashboard() {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 pb-6 lg:pb-0">
           {/* Severity Distribution */}
-          <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
+          <div className="bg-white p-4 md:p-6 rounded-2xl border border-gray-200 shadow-sm">
             <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4">Severity Distribution</h3>
             <div className="h-56 w-full relative">
               <ResponsiveContainer width="100%" height="100%">
@@ -282,7 +282,7 @@ export default function AnalyticsDashboard() {
           </div>
 
           {/* Source Distribution */}
-          <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
+          <div className="bg-white p-4 md:p-6 rounded-2xl border border-gray-200 shadow-sm">
             <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4">Detection Sources</h3>
             <div className="h-56 w-full relative">
               <ResponsiveContainer width="100%" height="100%">
@@ -314,7 +314,7 @@ export default function AnalyticsDashboard() {
           </div>
 
           {/* Area Burned Over Time */}
-          <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
+          <div className="bg-white p-4 md:p-6 rounded-2xl border border-gray-200 shadow-sm">
             <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-6">Burned Area (Ha)</h3>
             <div className="h-56 w-full">
               <ResponsiveContainer width="100%" height="100%">

@@ -107,11 +107,11 @@ export default function SatelliteIntelligence() {
         </div>
       </header>
 
-      <div className="flex-1 overflow-y-auto p-6 space-y-6">
+      <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6">
         
         {/* Status Cards & Filters */}
-        <div className="flex gap-4">
-          <div className="flex-1 grid grid-cols-2 gap-4">
+        <div className="flex flex-col xl:flex-row gap-4">
+          <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4">
             {status.map(s => (
               <div key={s.name} className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm flex flex-col justify-between">
                 <div className="flex justify-between items-start mb-4">
@@ -150,7 +150,7 @@ export default function SatelliteIntelligence() {
             ))}
           </div>
 
-          <div className="w-[450px] bg-white rounded-xl border border-gray-200 p-4 shadow-sm shrink-0">
+          <div className="w-full xl:w-[450px] bg-white rounded-xl border border-gray-200 p-4 shadow-sm shrink-0">
             <h3 className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3 flex items-center gap-2">
               <Filter className="w-4 h-4" /> Map Filters
             </h3>
@@ -226,10 +226,10 @@ export default function SatelliteIntelligence() {
           </div>
         </div>
 
-        <div className="flex gap-4 h-[550px]">
+        <div className="flex flex-col xl:flex-row gap-4 h-auto xl:h-[550px]">
           
-          {/* Timeline */}
-          <div className="w-56 bg-white rounded-2xl border border-gray-200 shadow-sm p-5 flex flex-col shrink-0">
+          {/* Timeline - Hidden on mobile for space, or made small */}
+          <div className="hidden xl:flex w-full xl:w-56 bg-white rounded-2xl border border-gray-200 shadow-sm p-5 flex-col shrink-0">
             <h3 className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-6">Pass Timeline</h3>
             <div className="relative pl-6 flex-1">
               <div className="absolute left-[9px] top-2 bottom-2 w-0.5 bg-gray-100"></div>
@@ -248,7 +248,7 @@ export default function SatelliteIntelligence() {
           </div>
 
           {/* Map */}
-          <div className="flex-1 bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden relative z-0">
+          <div className="flex-1 w-full h-[400px] xl:h-full bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden relative z-0">
             <MapContainer 
               center={[19.5, 81.0]} 
               zoom={7} 
@@ -293,8 +293,8 @@ export default function SatelliteIntelligence() {
 
           {/* Side Panel */}
           {selectedDetection && (
-            <div className="w-[400px] bg-white rounded-2xl border border-gray-200 shadow-sm flex flex-col shrink-0 overflow-hidden">
-              <div className="p-5 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+            <div className="w-full xl:w-[400px] fixed xl:relative bottom-[calc(env(safe-area-inset-bottom)+60px)] xl:bottom-auto left-0 right-0 z-[2000] xl:z-auto bg-white rounded-t-3xl xl:rounded-2xl border-t xl:border border-gray-200 shadow-[0_-10px_40px_rgb(0,0,0,0.1)] xl:shadow-sm flex flex-col shrink-0 overflow-y-auto max-h-[50vh] xl:max-h-none xl:h-full">
+              <div className="p-5 border-b border-gray-100 flex justify-between items-center bg-gray-50 sticky top-0 z-10">
                 <div>
                   <h3 className="text-sm font-bold text-gray-900">{selectedDetection.id}</h3>
                   <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider">{selectedDetection.satelliteName} Detection</div>

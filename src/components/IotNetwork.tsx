@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Cpu, MapPin, ThermometerSun, Droplets, Wind, ShieldAlert, Activity, Wifi, Battery, CheckCircle, XCircle, AlertTriangle, Link as LinkIcon, Radio, Signal, Power, CloudRain } from 'lucide-react';
+import { Cpu, MapPin, ThermometerSun, Droplets, Wind, ShieldAlert, Activity, Wifi, Battery, BatteryLow, CheckCircle, XCircle, AlertTriangle, Link as LinkIcon, Radio, Signal, Power, CloudRain, Clock, WifiOff, X } from 'lucide-react';
 import { MapContainer, TileLayer, Marker, ZoomControl, Tooltip } from 'react-leaflet';
 import L from 'leaflet';
 import { LineChart, Line, XAxis, YAxis, Tooltip as RechartsTooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
@@ -103,32 +103,32 @@ export default function IotNetwork() {
         </div>
       </header>
 
-      <div className="flex-1 overflow-y-auto p-6 space-y-6">
+      <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6">
         
         {/* Summary Metrics */}
-        <div className="grid grid-cols-4 gap-4">
-          <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between">
+        <div className="flex md:grid grid-cols-2 md:grid-cols-4 gap-4 overflow-x-auto pb-2 snap-x hide-scrollbar">
+          <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between min-w-[140px] snap-center shrink-0">
             <div className="flex items-center gap-2 mb-2">
               <CheckCircle className="w-4 h-4 text-green-500" />
               <span className="text-sm font-medium text-gray-600">Connected</span>
             </div>
             <div className="text-3xl font-bold text-gray-900">{connectedCount}</div>
           </div>
-          <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between">
+          <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between min-w-[140px] snap-center shrink-0">
             <div className="flex items-center gap-2 mb-2">
               <AlertTriangle className="w-4 h-4 text-yellow-500" />
               <span className="text-sm font-medium text-gray-600">Warning</span>
             </div>
             <div className="text-3xl font-bold text-gray-900">{warningCount}</div>
           </div>
-          <div className="bg-red-50 p-4 rounded-xl border border-red-200 shadow-sm flex flex-col justify-between">
+          <div className="bg-red-50 p-4 rounded-xl border border-red-200 shadow-sm flex flex-col justify-between min-w-[140px] snap-center shrink-0">
             <div className="flex items-center gap-2 mb-2">
               <Activity className="w-4 h-4 text-red-600" />
               <span className="text-sm font-bold text-red-700">Fire Anomaly</span>
             </div>
             <div className="text-3xl font-bold text-red-900">{anomalyCount}</div>
           </div>
-          <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between">
+          <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between min-w-[140px] snap-center shrink-0">
             <div className="flex items-center gap-2 mb-2">
               <XCircle className="w-4 h-4 text-gray-400" />
               <span className="text-sm font-medium text-gray-600">Offline</span>
@@ -137,9 +137,9 @@ export default function IotNetwork() {
           </div>
         </div>
 
-        <div className="flex gap-4 h-[650px]">
+        <div className="flex flex-col lg:flex-row gap-4 h-auto lg:h-[650px]">
           {/* Map Section */}
-          <div className="flex-1 bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden relative z-0">
+          <div className="flex-1 w-full h-[400px] lg:h-full bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden relative z-0">
             <div className="absolute top-4 left-4 z-[1000] bg-white/95 backdrop-blur px-4 py-2 rounded-xl shadow-sm border border-gray-200 pointer-events-none">
               <span className="text-xs font-bold text-gray-900 uppercase tracking-wider">Ground Sensor Nodes</span>
             </div>
@@ -188,9 +188,9 @@ export default function IotNetwork() {
 
           {/* Details Panel */}
           {selectedSensor ? (
-            <div className="w-[420px] bg-white rounded-2xl border border-gray-200 shadow-sm flex flex-col shrink-0 overflow-hidden relative">
+            <div className="w-full lg:w-[420px] fixed lg:relative bottom-[calc(env(safe-area-inset-bottom)+60px)] lg:bottom-auto left-0 right-0 z-[2000] lg:z-auto bg-white rounded-t-3xl lg:rounded-2xl border-t lg:border border-gray-200 shadow-[0_-10px_40px_rgb(0,0,0,0.1)] lg:shadow-sm flex flex-col shrink-0 overflow-hidden max-h-[50vh] lg:max-h-none lg:h-full">
               
-              <div className={`p-5 border-b border-gray-100 flex justify-between items-start ${selectedSensor.status === 'Fire Anomaly' ? 'bg-red-50' : 'bg-gray-50'}`}>
+              <div className={`p-5 border-b border-gray-100 flex justify-between items-start sticky top-0 z-10 ${selectedSensor.status === 'Fire Anomaly' ? 'bg-red-50' : 'bg-gray-50'}`}>
                 <div>
                   <h2 className="text-lg font-bold text-gray-900">{selectedSensor.id}</h2>
                   <div className="flex items-center gap-2 mt-1">
@@ -198,16 +198,25 @@ export default function IotNetwork() {
                     <span className="text-xs text-gray-600 font-medium">{selectedSensor.district} District</span>
                   </div>
                 </div>
-                <div className="text-right flex flex-col items-end">
-                  <div className={`px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider mb-1 ${
-                    selectedSensor.status === 'Fire Anomaly' ? 'bg-red-200 text-red-800' :
-                    selectedSensor.status === 'Warning' ? 'bg-yellow-200 text-yellow-800' :
-                    selectedSensor.status === 'Normal' ? 'bg-green-100 text-green-800' :
-                    'bg-gray-200 text-gray-700'
-                  }`}>
-                    {selectedSensor.status}
+                
+                <div className="flex items-start gap-4">
+                  <div className="text-right flex flex-col items-end hidden lg:flex">
+                    <div className={`px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider mb-1 ${
+                      selectedSensor.status === 'Fire Anomaly' ? 'bg-red-200 text-red-800' :
+                      selectedSensor.status === 'Warning' ? 'bg-yellow-200 text-yellow-800' :
+                      selectedSensor.status === 'Normal' ? 'bg-green-100 text-green-800' :
+                      'bg-gray-200 text-gray-700'
+                    }`}>
+                      {selectedSensor.status}
+                    </div>
+                    <div className="text-[10px] text-gray-500 font-bold uppercase">Updated {selectedSensor.lastUpdate}</div>
                   </div>
-                  <div className="text-[10px] text-gray-500 font-bold uppercase">Updated {selectedSensor.lastUpdate}</div>
+                  <button 
+                    onClick={() => setSelectedSensor(null)}
+                    className="p-1.5 text-gray-500 hover:text-gray-700 bg-white border border-gray-200 rounded-full transition-colors shadow-sm"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
                 </div>
               </div>
 

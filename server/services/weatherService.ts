@@ -30,7 +30,7 @@ export const getWeather = async (lat: number, lng: number): Promise<ServiceRespo
   const baseUrl = 'https://api.open-meteo.com/v1/forecast';
   
   try {
-    const url = `${baseUrl}?latitude=${lat}&longitude=${lng}&current=temperature_2m,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m`;
+    const url = `${baseUrl}?latitude=${lat}&longitude=${lng}&current=temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m,wind_direction_10m,wind_gusts_10m,vapor_pressure_deficit&hourly=soil_moisture_0_to_7cm&timezone=auto`;
     console.log('Fetching:', url); const response = await fetch(url);
     
     if (!response.ok) {

@@ -91,7 +91,7 @@ export default function CommandCenter() {
       </div>
 
       {/* Hero Banner */}
-      <div className="relative w-full h-[280px] rounded-3xl overflow-hidden shadow-lg border border-gray-200 bg-gray-900">
+      <div className="relative w-full h-[220px] md:h-[280px] rounded-3xl overflow-hidden shadow-lg border border-gray-200 bg-gray-900">
         <img 
           src={bannerImg} 
           alt="Dashboard Banner" 
@@ -99,18 +99,18 @@ export default function CommandCenter() {
         />
         
         {/* Glassmorphism Text Box to ensure text is readable regardless of the uploaded image */}
-        <div className="absolute inset-0 flex flex-col justify-center p-10 max-w-2xl z-10">
-          <div className="bg-black/40 backdrop-blur-sm p-6 rounded-2xl border border-white/10 w-max">
-            <h2 className="text-3xl font-bold text-white mb-2 leading-tight">
-              Protecting Chhattisgarh\'s <br/>
+        <div className="absolute inset-0 flex flex-col justify-center p-6 md:p-10 max-w-2xl z-10">
+          <div className="bg-black/40 backdrop-blur-sm p-5 md:p-6 rounded-2xl border border-white/10 w-max max-w-full">
+            <h2 className="text-xl md:text-3xl font-bold text-white mb-2 leading-tight">
+              Protecting Chhattisgarh\'s <br className="hidden md:block"/>
               <span className="text-green-400">Forests in Real-time</span>
             </h2>
-            <p className="text-gray-200 text-sm mb-6 max-w-lg leading-relaxed">
+            <p className="text-gray-200 text-xs md:text-sm mb-4 md:mb-6 max-w-lg leading-relaxed hidden md:block">
               AI-powered monitoring using IoT sensors and satellite imagery for early fire detection and faster response.
             </p>
             <button 
               onClick={() => navigate('/monitoring')}
-              className="flex items-center gap-2 bg-white/90 hover:bg-white text-green-900 px-5 py-2.5 rounded-xl font-bold text-sm transition-colors shadow-sm w-max"
+              className="flex items-center gap-2 bg-white/90 hover:bg-white text-green-900 px-4 md:px-5 py-2 md:py-2.5 rounded-xl font-bold text-xs md:text-sm transition-colors shadow-sm w-max"
             >
               <MapPin className="w-4 h-4" /> View Live Map
             </button>
@@ -119,7 +119,7 @@ export default function CommandCenter() {
       </div>
 
       {/* Metrics Row */}
-      <div className="grid grid-cols-5 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
         {/* Card 1 */}
         <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm flex flex-col justify-between">
           <div className="flex items-start gap-3">
@@ -231,7 +231,7 @@ export default function CommandCenter() {
       </div>
 
       {/* 4-Column Intelligence Grid (Restored from old UI) */}
-      <div className="grid grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         {/* Risk Overview */}
         <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm">
           <h3 className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-4 flex items-center gap-2">

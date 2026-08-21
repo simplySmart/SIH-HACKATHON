@@ -159,11 +159,11 @@ export default function IncidentDetails({ incident, onBack }: Props) {
         </div>
       </div>
 
-      <div className="flex-1 flex gap-6 overflow-hidden">
+      <div className="flex-1 flex flex-col lg:flex-row gap-6 overflow-hidden">
         {/* Left Column (Details & Evidence) */}
-        <div className="flex-1 overflow-y-auto space-y-6 pb-6 pr-2">
+        <div className="flex-1 overflow-y-auto space-y-6 pb-6 lg:pr-2">
           
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="bg-[#0f1912]/80 backdrop-blur-3xl p-6 rounded-3xl border border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
               <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-4">Location & Risk</h3>
               <div className="space-y-4">
@@ -307,7 +307,7 @@ export default function IncidentDetails({ incident, onBack }: Props) {
         </div>
 
         {/* Right Column (Map & Timeline) */}
-        <div className="w-96 flex flex-col gap-6 shrink-0">
+        <div className="w-full lg:w-96 flex flex-col gap-6 shrink-0 h-auto">
           
           {/* Mini Map */}
           <div className="bg-[#0f1912]/80 backdrop-blur-3xl p-2 rounded-2xl border border-white/10 shadow-sm h-64 relative overflow-hidden flex flex-col z-0">

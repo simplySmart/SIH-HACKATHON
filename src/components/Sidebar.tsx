@@ -27,7 +27,7 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="w-64 bg-white border-r border-gray-200 text-gray-500 flex flex-col h-screen fixed left-0 top-0 z-20 shadow-sm">
+    <aside className="hidden md:flex w-64 bg-white border-r border-gray-200 text-gray-500 flex-col h-screen fixed left-0 top-0 z-20 shadow-sm">
       <div className="p-6 flex items-center gap-3">
         <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center shrink-0">
           <TreePine className="w-6 h-6 text-green-600" />
