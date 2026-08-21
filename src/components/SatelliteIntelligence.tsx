@@ -30,9 +30,10 @@ const incidentIcon = L.divIcon({
 
 const getScreeningColor = (status: string) => {
   switch(status) {
-    case 'Likely Forest Fire': return 'bg-red-50 text-red-700 border-red-200';
-    case 'Possible Non-Forest Heat Source': return 'bg-yellow-50 text-yellow-700 border-yellow-200';
-    case 'Under Review': return 'bg-gray-50 text-gray-700 border-gray-200';
+    case 'FOREST': return 'bg-red-50 text-red-700 border-red-200';
+    case 'NEAR FOREST': return 'bg-orange-50 text-orange-700 border-orange-200';
+    case 'NON-FOREST': return 'bg-blue-50 text-blue-700 border-blue-200';
+    case 'UNKNOWN': return 'bg-gray-50 text-gray-700 border-gray-200';
     default: return 'bg-gray-50 text-gray-700 border-gray-200';
   }
 }
@@ -48,7 +49,11 @@ export default function SatelliteIntelligence() {
     viirs: true,
     modis: true,
     incidents: true,
-    historical: false
+    historical: false,
+    forest: true,
+    nearForest: true,
+    nonForest: true,
+    unknown: true
   });
 
   const [selectedDetection, setSelectedDetection] = useState<SatelliteDetection | null>(null);
@@ -63,6 +68,13 @@ export default function SatelliteIntelligence() {
   const visibleDetections = detections.filter(d => {
     if (d.satelliteName === 'VIIRS' && !filters.viirs) return false;
     if (d.satelliteName === 'MODIS' && !filters.modis) return false;
+    
+    // Screening filters
+    if (d.forestScreening === 'FOREST' && !filters.forest) return false;
+    if (d.forestScreening === 'NEAR FOREST' && !filters.nearForest) return false;
+    if (d.forestScreening === 'NON-FOREST' && !filters.nonForest) return false;
+    if (d.forestScreening === 'UNKNOWN' && !filters.unknown) return false;
+
     return true;
   });
 
@@ -138,31 +150,31 @@ export default function SatelliteIntelligence() {
             ))}
           </div>
 
-          <div className="w-96 bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
+          <div className="w-[450px] bg-white rounded-xl border border-gray-200 p-4 shadow-sm shrink-0">
             <h3 className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3 flex items-center gap-2">
               <Filter className="w-4 h-4" /> Map Filters
             </h3>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-2 mb-3">
               <button 
                 onClick={() => setFilters(f => ({...f, viirs: !f.viirs}))}
                 className={`py-2 px-3 rounded-lg border text-sm font-medium flex items-center gap-2 transition-colors ${filters.viirs ? 'bg-purple-50 border-purple-200 text-purple-700' : 'bg-gray-50 border-gray-200 text-gray-500 hover:bg-gray-100'}`}
               >
                 <div className={`w-3 h-3 rounded-full ${filters.viirs ? 'bg-purple-600' : 'bg-gray-300'}`}></div>
-                VIIRS Detections
+                VIIRS
               </button>
               <button 
                 onClick={() => setFilters(f => ({...f, modis: !f.modis}))}
                 className={`py-2 px-3 rounded-lg border text-sm font-medium flex items-center gap-2 transition-colors ${filters.modis ? 'bg-blue-50 border-blue-200 text-blue-700' : 'bg-gray-50 border-gray-200 text-gray-500 hover:bg-gray-100'}`}
               >
                 <div className={`w-3 h-3 rounded-full ${filters.modis ? 'bg-blue-500' : 'bg-gray-300'}`}></div>
-                MODIS Detections
+                MODIS
               </button>
               <button 
                 onClick={() => setFilters(f => ({...f, incidents: !f.incidents}))}
                 className={`py-2 px-3 rounded-lg border text-sm font-medium flex items-center gap-2 transition-colors ${filters.incidents ? 'bg-red-50 border-red-200 text-red-700' : 'bg-gray-50 border-gray-200 text-gray-500 hover:bg-gray-100'}`}
               >
                 <div className={`w-3 h-3 rounded-md ${filters.incidents ? 'bg-red-600' : 'bg-gray-300'}`}></div>
-                Active Incidents
+                Incidents
               </button>
               <button 
                 onClick={() => setFilters(f => ({...f, historical: !f.historical}))}
@@ -170,6 +182,46 @@ export default function SatelliteIntelligence() {
               >
                 Historical (Demo)
               </button>
+            </div>
+            
+            <div className="h-[1px] w-full bg-gray-100 my-3"></div>
+            
+            <div className="grid grid-cols-2 gap-2">
+              <button 
+                onClick={() => setFilters(f => ({...f, forest: !f.forest}))}
+                className={`py-1.5 px-2 rounded-md border text-[11px] font-bold flex items-center gap-1.5 transition-colors ${filters.forest ? 'bg-red-50 border-red-200 text-red-700' : 'bg-gray-50 border-gray-200 text-gray-400'}`}
+              >
+                <div className={`w-2 h-2 rounded-full ${filters.forest ? 'bg-red-500' : 'bg-gray-300'}`}></div>
+                FOREST
+              </button>
+              <button 
+                onClick={() => setFilters(f => ({...f, nearForest: !f.nearForest}))}
+                className={`py-1.5 px-2 rounded-md border text-[11px] font-bold flex items-center gap-1.5 transition-colors ${filters.nearForest ? 'bg-orange-50 border-orange-200 text-orange-700' : 'bg-gray-50 border-gray-200 text-gray-400'}`}
+              >
+                <div className={`w-2 h-2 rounded-full ${filters.nearForest ? 'bg-orange-500' : 'bg-gray-300'}`}></div>
+                NEAR FOREST
+              </button>
+              <button 
+                onClick={() => setFilters(f => ({...f, nonForest: !f.nonForest}))}
+                className={`py-1.5 px-2 rounded-md border text-[11px] font-bold flex items-center gap-1.5 transition-colors ${filters.nonForest ? 'bg-blue-50 border-blue-200 text-blue-700' : 'bg-gray-50 border-gray-200 text-gray-400'}`}
+              >
+                <div className={`w-2 h-2 rounded-full ${filters.nonForest ? 'bg-blue-500' : 'bg-gray-300'}`}></div>
+                NON-FOREST
+              </button>
+              <button 
+                onClick={() => setFilters(f => ({...f, unknown: !f.unknown}))}
+                className={`py-1.5 px-2 rounded-md border text-[11px] font-bold flex items-center gap-1.5 transition-colors ${filters.unknown ? 'bg-gray-100 border-gray-300 text-gray-700' : 'bg-gray-50 border-gray-200 text-gray-400'}`}
+              >
+                <div className={`w-2 h-2 rounded-full ${filters.unknown ? 'bg-gray-500' : 'bg-gray-300'}`}></div>
+                UNKNOWN
+              </button>
+            </div>
+            
+            <div className="mt-3 p-2 bg-blue-50 rounded border border-blue-100 flex items-start gap-2">
+               <ShieldAlert className="w-3.5 h-3.5 text-blue-500 shrink-0 mt-0.5" />
+               <p className="text-[9px] text-blue-800 font-medium leading-tight">
+                 Satellite thermal anomaly does not necessarily indicate a forest fire. Screened against GIS datasets.
+               </p>
             </div>
           </div>
         </div>
@@ -233,6 +285,9 @@ export default function SatelliteIntelligence() {
                   <Tooltip>{inc.id} - {inc.status}</Tooltip>
                 </Marker>
               ))}
+              <div className="absolute bottom-4 left-4 z-[400] bg-white/90 backdrop-blur px-3 py-2 rounded-lg border border-gray-200 shadow-sm text-[10px] text-gray-600 font-medium">
+                Data Provenance: Forest screening relies on publicly available open geospatial forest datasets. 
+              </div>
             </MapContainer>
           </div>
 
@@ -296,12 +351,16 @@ export default function SatelliteIntelligence() {
                     </div>
                   </div>
 
-                  <div className={`p-3 border rounded-xl flex items-start gap-3 ${getScreeningColor(selectedDetection.screeningStatus)}`}>
+                  <div className={`p-3 border rounded-xl flex items-start gap-3 ${getScreeningColor(selectedDetection.forestScreening || 'UNKNOWN')}`}>
                     <ShieldAlert className="w-5 h-5 shrink-0 mt-0.5" />
                     <div>
-                      <div className="text-[10px] font-bold uppercase tracking-wider mb-0.5 opacity-70">False Positive Screening</div>
-                      <div className="text-sm font-bold">{selectedDetection.screeningStatus}</div>
-                      <div className="text-xs mt-1 opacity-80">Forest context: {selectedDetection.forestContext}</div>
+                      <div className="text-[10px] font-bold uppercase tracking-wider mb-0.5 opacity-70">Screening Result</div>
+                      <div className="text-sm font-bold">{selectedDetection.forestScreening || 'UNKNOWN'}</div>
+                      <div className="text-xs mt-1 opacity-80">
+                        Context: {selectedDetection.landContext || 'Unknown'}<br/>
+                        {selectedDetection.screeningDistance != null && selectedDetection.screeningDistance > 0 && 
+                          `Distance to nearest forest: ${selectedDetection.screeningDistance.toFixed(2)} km`}
+                      </div>
                     </div>
                   </div>
                 </div>

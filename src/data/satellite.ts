@@ -69,8 +69,8 @@ export const mockSatelliteDetections: SatelliteDetection[] = [
     confidence: 78,
     frp: 35.1,
     district: 'Sukma',
-    forestScreening: 'FOREST',
-    screeningDistance: 0
+    forestScreening: 'NEAR FOREST',
+    screeningDistance: 0.8
   },
   {
     id: 'DET-V-003',
@@ -83,5 +83,16 @@ export const mockSatelliteDetections: SatelliteDetection[] = [
     district: 'Kanker',
     forestScreening: 'FOREST',
     screeningDistance: 0
+  },
+  {
+    id: 'DET-V-004',
+    satelliteName: 'VIIRS',
+    timestamp: '11:15 AM',
+    coordinates: { lat: 21.2, lng: 81.6 },
+    confidence: 70,
+    frp: 20.0,
+    district: 'Raipur',
+    forestScreening: 'NON-FOREST',
+    screeningDistance: 5.2
   }
 ];

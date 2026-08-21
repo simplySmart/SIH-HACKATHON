@@ -45,11 +45,18 @@ export const FireService = {
               
               const { screening, distanceKm } = getForestScreening(lat, lng);
 
+              // Update incident creation logic
+              // FOREST -> eligible (detected)
+              // NEAR FOREST -> review (verifying)
+              // UNKNOWN -> review (verifying)
+              // NON-FOREST -> do not auto-create
+              if (screening === 'NON-FOREST') {
+                return; // skip creation
+              }
+
               let status: IncidentStatus = 'detected';
               if (screening === 'NEAR FOREST' || screening === 'UNKNOWN') {
                 status = 'verifying';
-              } else if (screening === 'NON-FOREST') {
-                status = 'rejected';
               }
 
               realIncidents.push({
