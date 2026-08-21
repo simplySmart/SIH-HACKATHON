@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import {
+  PlayCircle,
   Home,
   Activity,
   Bell,
@@ -11,7 +12,8 @@ import {
   Cpu,
   BarChart2,
   FileText,
-  Settings
+  Settings,
+  Radio
 } from 'lucide-react';
 
 export default function MobileBottomNav() {
@@ -20,15 +22,14 @@ export default function MobileBottomNav() {
 
   const primaryItems = [
     { icon: Home, label: 'Home', path: '/' },
-    { icon: Activity, label: 'Monitor', path: '/monitoring' },
+    { icon: Activity, label: 'Map', path: '/monitoring' },
     { icon: Bell, label: 'Incidents', path: '/incidents' },
-    { icon: ThermometerSun, label: 'Risk', path: '/risk' },
+    { icon: Cpu, label: 'Sensors', path: '/sensors' },
   ];
 
   const moreItems = [
-    { icon: Satellite, label: 'Satellite', path: '/satellite' },
-    { icon: Cpu, label: 'Sensors', path: '/sensors' },
-    { icon: BarChart2, label: 'Analytics', path: '/analytics' },
+    { icon: PlayCircle, label: 'Simulation', path: '/simulation' },
+    { icon: Radio, label: 'Comms', path: '/communication' },
     { icon: FileText, label: 'Reports', path: '/reports' },
     { icon: Settings, label: 'Settings', path: '/settings' },
   ];
@@ -43,18 +44,18 @@ export default function MobileBottomNav() {
       {/* Bottom Sheet Backdrop */}
       {isMoreOpen && (
         <div 
-          className="fixed inset-0 bg-black/50 z-40 md:hidden transition-opacity"
+          className="fixed inset-0 bg-slate-800/20 z-40 md:hidden transition-opacity"
           onClick={() => setIsMoreOpen(false)}
         />
       )}
 
       {/* Bottom Sheet */}
       <div 
-        className={`fixed bottom-[calc(env(safe-area-inset-bottom)+60px)] left-0 right-0 bg-white rounded-t-3xl z-50 md:hidden transition-transform duration-300 shadow-[0_-10px_40px_rgba(0,0,0,0.1)] border-t border-gray-100 ${isMoreOpen ? 'translate-y-0' : 'translate-y-full'}`}
+        className={`fixed bottom-[calc(env(safe-area-inset-bottom)+60px)] left-0 right-0 bg-white rounded-t-3xl z-50 md:hidden transition-transform duration-300 shadow-[0_-10px_40px_rgba(0,0,0,0.1)] border-t border-slate-200 ${isMoreOpen ? 'translate-y-0' : 'translate-y-full'}`}
       >
         <div className="p-4">
-          <div className="w-12 h-1.5 bg-gray-200 rounded-full mx-auto mb-4" />
-          <h3 className="text-sm font-bold text-gray-900 mb-4 px-2">More Tools</h3>
+          <div className="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mb-4" />
+          <h3 className="text-sm font-bold text-slate-900 mb-4 px-2">More Tools</h3>
           <div className="grid grid-cols-4 gap-4">
             {moreItems.map((item, idx) => (
               <NavLink
@@ -63,13 +64,13 @@ export default function MobileBottomNav() {
                 onClick={() => setIsMoreOpen(false)}
                 className={({ isActive }) => 
                   `flex flex-col items-center justify-center p-3 rounded-2xl gap-2 transition-colors ${
-                    isActive ? 'bg-green-50 text-green-700' : 'text-gray-500 active:bg-gray-50'
+                    isActive ? 'bg-emerald-50 text-emerald-700' : 'text-slate-500 active:bg-slate-50'
                   }`
                 }
               >
                 {({ isActive }) => (
                   <>
-                    <item.icon className={`w-6 h-6 ${isActive ? 'text-green-400' : 'text-gray-500'}`} />
+                    <item.icon className={`w-6 h-6 ${isActive ? 'text-emerald-600' : 'text-slate-500'}`} />
                     <span className="text-[10px] font-bold text-center">{item.label}</span>
                   </>
                 )}
@@ -80,7 +81,7 @@ export default function MobileBottomNav() {
       </div>
 
       {/* Bottom Navigation Bar */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50 md:hidden pb-[env(safe-area-inset-bottom)]">
+      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 z-50 md:hidden pb-[env(safe-area-inset-bottom)]">
         <div className="flex items-center justify-around h-[60px]">
           {primaryItems.map((item, idx) => (
             <NavLink
@@ -88,13 +89,13 @@ export default function MobileBottomNav() {
               to={item.path}
               className={({ isActive }) => 
                 `flex-1 flex flex-col items-center justify-center h-full gap-1 transition-colors ${
-                  isActive ? 'text-green-600' : 'text-gray-500 hover:text-white'
+                  isActive ? 'text-emerald-600' : 'text-slate-500 hover:text-slate-900'
                 }`
               }
             >
               {({ isActive }) => (
                 <>
-                  <item.icon className={`w-5 h-5 ${isActive ? 'text-green-600 fill-green-50' : ''}`} />
+                  <item.icon className={`w-5 h-5 ${isActive ? 'text-emerald-600 fill-emerald-50' : ''}`} />
                   <span className="text-[10px] font-medium">{item.label}</span>
                 </>
               )}
@@ -103,7 +104,7 @@ export default function MobileBottomNav() {
           <button
             onClick={() => setIsMoreOpen(!isMoreOpen)}
             className={`flex-1 flex flex-col items-center justify-center h-full gap-1 transition-colors ${
-              isMoreOpen ? 'text-green-600' : 'text-gray-500'
+              isMoreOpen ? 'text-emerald-600' : 'text-slate-500'
             }`}
           >
             {isMoreOpen ? (

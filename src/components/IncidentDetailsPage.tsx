@@ -28,7 +28,7 @@ export default function IncidentDetailsPage() {
   if (loading) {
     return (
       <div className="flex h-full items-center justify-center">
-        <span className="text-gray-500">Loading incident details...</span>
+        <span className="text-slate-400">Loading incident details...</span>
       </div>
     );
   }
@@ -36,7 +36,7 @@ export default function IncidentDetailsPage() {
   if (!incident) {
     return (
       <div className="flex flex-col h-full items-center justify-center">
-        <span className="text-gray-500 mb-4">Incident not found.</span>
+        <span className="text-slate-400 mb-4">Incident not found.</span>
         <button 
           onClick={() => navigate('/incidents')}
           className="px-4 py-2 bg-green-50 text-green-700 font-medium rounded-lg"

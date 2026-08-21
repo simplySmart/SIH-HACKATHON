@@ -36,13 +36,13 @@ export default function MobileHeader() {
   return (
     <header className="fixed top-0 left-0 right-0 bg-white border-b border-gray-100 z-50 md:hidden h-14 flex items-center justify-between px-4 pt-[env(safe-area-inset-top)]">
       <div className="flex items-center gap-2">
-        <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
+        <div className="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center">
           <TreePine className="w-5 h-5 text-green-600" />
         </div>
       </div>
       
       <div className="flex-1 flex justify-center">
-        <h1 className="text-sm font-bold text-white truncate px-2">{pageTitle}</h1>
+        <h1 className="text-sm font-bold text-slate-900 truncate px-2">{pageTitle}</h1>
       </div>
       
       <div className="flex items-center justify-end min-w-[60px]">
