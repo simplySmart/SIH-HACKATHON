@@ -142,16 +142,16 @@ export default function LiveMonitoring() {
           <div className="flex flex-wrap items-center gap-2 md:gap-4 w-full md:w-auto">
             <h1 className="text-xl md:text-2xl font-bold text-slate-900 uppercase tracking-tight">Live Forest Map</h1>
             <div className="flex flex-wrap items-center gap-2 md:gap-3 ml-0 md:ml-2">
-              <div className="flex items-center gap-1.5 px-2.5 py-1 bg-green-500/10 rounded-md border border-green-500/20">
-                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider">System Operational</span>
+              <div className="flex items-center gap-1.5 px-2.5 py-1 bg-emerald-50 rounded-md border border-emerald-200 shadow-sm">
+                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+                <span className="text-[10px] font-bold text-emerald-700 uppercase tracking-wider">System Operational</span>
               </div>
               {config.DEMO_MODE ? (
-                <span className="bg-orange-100 text-orange-300 text-[10px] px-2.5 py-1 rounded-md font-bold uppercase tracking-wider border border-orange-500/30">
+                <span className="bg-orange-50 text-orange-700 text-[10px] px-2.5 py-1 rounded-md font-bold uppercase tracking-wider border border-orange-200 shadow-sm">
                   Demo Data
                 </span>
               ) : (
-                <span className="bg-blue-100 text-blue-300 text-[10px] px-2.5 py-1 rounded-md font-bold uppercase tracking-wider border border-blue-500/30 flex items-center gap-1.5">
+                <span className="bg-blue-50 text-blue-700 text-[10px] px-2.5 py-1 rounded-md font-bold uppercase tracking-wider border border-blue-200 flex items-center gap-1.5 shadow-sm">
                   <div className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse"></div>
                   Live Data Connected
                 </span>
@@ -167,9 +167,9 @@ export default function LiveMonitoring() {
             </button>
           </div>
         </div>
-        <div className="px-4 py-2.5 mt-2 bg-amber-500/10 backdrop-blur-md border border-amber-500/20 text-amber-300 rounded-xl flex items-start gap-3 shadow-sm">
-          <span className="text-amber-600 mt-0.5"><Flame className="w-4 h-4" /></span>
-          <span className="text-xs text-yellow-300 font-medium leading-relaxed">
+        <div className="px-4 py-3 mt-2 bg-amber-50 border border-amber-200 rounded-xl flex items-start gap-3 shadow-sm">
+          <span className="text-amber-500 mt-0.5"><Flame className="w-4 h-4" /></span>
+          <span className="text-xs text-amber-900 font-medium leading-relaxed">
             <strong>Note:</strong> Satellite thermal anomaly does not necessarily indicate a forest fire. Detections are screened against forest boundaries.
           </span>
         </div>
@@ -181,68 +181,68 @@ export default function LiveMonitoring() {
         <div className="hidden lg:flex w-72 flex-col gap-6 overflow-y-auto pb-4 shrink-0">
           
           {/* Telemetry Card */}
-          <div className="bg-gradient-to-br from-[#111c16] to-[#0a120d] rounded-3xl p-6 text-slate-900 shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-200 relative overflow-hidden">
+          <div className="bg-gradient-to-br from-[#111c16] to-[#0a120d] rounded-3xl p-6 text-white shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-[#1f2e24] relative overflow-hidden">
             <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-green-500/30 to-transparent"></div>
-            <h3 className="text-sm font-semibold text-slate-600 mb-5 tracking-wide uppercase">{selectedIncident ? 'Incident Weather' : 'Regional Telemetry'}</h3>
+            <h3 className="text-sm font-semibold text-emerald-400 mb-5 tracking-wide uppercase">{selectedIncident ? 'Incident Weather' : 'Regional Telemetry'}</h3>
             {(() => {
               const displayWeather = selectedIncident ? selectedIncidentWeather : weather;
               
               if (selectedIncident && !selectedIncidentWeather) {
-                 return <div className="text-sm text-slate-500 italic">Fetching weather...</div>;
+                 return <div className="text-sm text-emerald-500/70 italic">Fetching weather...</div>;
               }
               
               if (!displayWeather || (displayWeather as any).error) {
-                 return <div className="text-sm text-slate-500 italic">Weather unavailable</div>;
+                 return <div className="text-sm text-emerald-500/70 italic">Weather unavailable</div>;
               }
               
               return (
                 <div className="space-y-4">
                   <div className="flex flex-col gap-1">
-                    <div className="flex items-center gap-2 text-slate-500 text-xs uppercase tracking-wider">
+                    <div className="flex items-center gap-2 text-emerald-500/70 text-xs uppercase tracking-wider">
                       <Thermometer className="w-3.5 h-3.5" /> Temperature & Humidity
                     </div>
                     <div className="flex items-baseline gap-3">
-                      <span className="text-3xl font-light">{displayWeather.temperature !== undefined ? `${displayWeather.temperature}°C` : '--°C'}</span>
-                      <span className="text-lg text-slate-600">{displayWeather.humidity !== undefined ? `${displayWeather.humidity}%` : '--%'}</span>
+                      <span className="text-3xl font-light text-white">{displayWeather.temperature !== undefined ? `${displayWeather.temperature}°C` : '--°C'}</span>
+                      <span className="text-lg text-emerald-300">{displayWeather.humidity !== undefined ? `${displayWeather.humidity}%` : '--%'}</span>
                     </div>
                   </div>
                   
-                  <div className="w-full h-px bg-slate-100"></div>
+                  <div className="w-full h-px bg-[#1f2e24]"></div>
                   
                   <div className="grid grid-cols-2 gap-4">
                     <div className="flex flex-col gap-1">
-                      <div className="flex items-center gap-2 text-slate-500 text-xs">
+                      <div className="flex items-center gap-2 text-emerald-500/70 text-xs">
                         <Navigation className="w-3.5 h-3.5" /> Wind
                       </div>
-                      <div className="text-sm font-medium">{displayWeather.windSpeed !== undefined ? `${displayWeather.windSpeed} km/h` : '--'}</div>
-                      <div className="text-xs text-slate-500">{displayWeather.windDirection !== undefined ? `${displayWeather.windDirection}°` : ''} {displayWeather.windGust !== undefined ? `(Gusts: ${displayWeather.windGust} km/h)` : ''}</div>
+                      <div className="text-sm font-medium text-white">{displayWeather.windSpeed !== undefined ? `${displayWeather.windSpeed} km/h` : '--'}</div>
+                      <div className="text-xs text-emerald-400/60">{displayWeather.windDirection !== undefined ? `${displayWeather.windDirection}°` : ''} {displayWeather.windGust !== undefined ? `(Gusts: ${displayWeather.windGust} km/h)` : ''}</div>
                     </div>
                     <div className="flex flex-col gap-1">
-                      <div className="flex items-center gap-2 text-slate-500 text-xs">
+                      <div className="flex items-center gap-2 text-emerald-500/70 text-xs">
                         <Droplets className="w-3.5 h-3.5" /> Rainfall
                       </div>
-                      <div className="text-sm font-medium">{displayWeather.precipitation !== undefined ? `${displayWeather.precipitation} mm` : '--'}</div>
+                      <div className="text-sm font-medium text-white">{displayWeather.precipitation !== undefined ? `${displayWeather.precipitation} mm` : '--'}</div>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4 pt-2">
                     <div className="flex flex-col gap-1">
-                      <div className="flex items-center gap-2 text-slate-500 text-xs">
+                      <div className="flex items-center gap-2 text-emerald-500/70 text-xs">
                         VPD
                       </div>
-                      <div className="text-sm font-medium">{displayWeather.vpd !== undefined ? `${displayWeather.vpd} kPa` : '--'}</div>
+                      <div className="text-sm font-medium text-white">{displayWeather.vpd !== undefined ? `${displayWeather.vpd} kPa` : '--'}</div>
                     </div>
                     <div className="flex flex-col gap-1">
-                      <div className="flex items-center gap-2 text-slate-500 text-xs">
+                      <div className="flex items-center gap-2 text-emerald-500/70 text-xs">
                         Soil Moisture
                       </div>
-                      <div className="text-sm font-medium">{displayWeather.soilMoisture !== undefined ? `${displayWeather.soilMoisture} m³/m³` : '--'}</div>
+                      <div className="text-sm font-medium text-white">{displayWeather.soilMoisture !== undefined ? `${displayWeather.soilMoisture} m³/m³` : '--'}</div>
                     </div>
                   </div>
                   
-                  <div className="w-full h-px bg-slate-100"></div>
+                  <div className="w-full h-px bg-[#1f2e24]"></div>
                   
-                  <div className="flex flex-col gap-1 text-[10px] text-slate-500 pt-1">
+                  <div className="flex flex-col gap-1 text-[10px] text-emerald-500/50 pt-1">
                     <div>Updated {Math.round((Date.now() - new Date(displayWeather.retrievedAt || displayWeather.timestamp).getTime()) / 60000)} minutes ago</div>
                     <div>Source: {displayWeather.source || 'Open-Meteo'}</div>
                   </div>
@@ -312,7 +312,7 @@ export default function LiveMonitoring() {
             center={mapCenter} 
             zoom={defaultZoom} 
             zoomControl={false}
-            className="w-full h-full z-0"
+            className="absolute inset-0 z-0"
           >
             <ZoomControl position="topleft" />
             <MapResetControl center={mapCenter} zoom={defaultZoom} />
@@ -367,7 +367,7 @@ export default function LiveMonitoring() {
                               e.stopPropagation();
                               navigate(`/incidents/${incident.id}`);
                             }}
-                            className="w-full py-2 bg-[#0F1E16] text-slate-900 rounded-lg text-sm font-medium hover:bg-[#1C2C23] transition-colors shadow-sm"
+                            className="w-full py-2 bg-[#0F1E16] text-white rounded-lg text-sm font-medium hover:bg-[#1C2C23] transition-colors shadow-sm"
                           >
                             Open Incident
                           </button>
@@ -512,7 +512,7 @@ export default function LiveMonitoring() {
 
              <button 
                 onClick={() => navigate(`/incidents/${selectedIncident.id}`)}
-                className="w-full flex items-center justify-center gap-2 py-3 bg-gradient-to-b from-gray-800 to-gray-900 text-slate-900 rounded-xl text-sm font-semibold tracking-wide hover:from-gray-700 hover:to-gray-800 transition-all shadow-[0_4px_14px_0_rgb(0,0,0,0.1)] mt-auto"
+                className="w-full flex items-center justify-center gap-2 py-3 bg-gradient-to-b from-gray-800 to-gray-900 text-white rounded-xl text-sm font-semibold tracking-wide hover:from-gray-700 hover:to-gray-800 transition-all shadow-[0_4px_14px_0_rgb(0,0,0,0.1)] mt-auto"
               >
                 View Full Details
               </button>

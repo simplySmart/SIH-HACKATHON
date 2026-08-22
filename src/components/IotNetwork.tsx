@@ -106,29 +106,29 @@ export default function IotNetwork() {
       <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6">
         
         {/* Summary Metrics */}
-        <div className="flex md:grid grid-cols-2 md:grid-cols-4 gap-4 overflow-x-auto pb-2 snap-x hide-scrollbar">
-          <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between min-w-[140px] snap-center shrink-0">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pb-2">
+          <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between">
             <div className="flex items-center gap-2 mb-2">
               <CheckCircle className="w-4 h-4 text-emerald-600" />
               <span className="text-sm font-medium text-slate-400">Monitoring</span>
             </div>
             <div className="text-3xl font-bold text-slate-900">{connectedCount}</div>
           </div>
-          <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between min-w-[140px] snap-center shrink-0">
+          <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between">
             <div className="flex items-center gap-2 mb-2">
               <AlertTriangle className="w-4 h-4 text-yellow-500" />
               <span className="text-sm font-medium text-slate-400">High Alert</span>
             </div>
             <div className="text-3xl font-bold text-slate-900">{warningCount}</div>
           </div>
-          <div className="bg-red-50 p-4 rounded-xl border border-red-200 shadow-sm flex flex-col justify-between min-w-[140px] snap-center shrink-0">
+          <div className="bg-red-50 p-4 rounded-xl border border-red-200 shadow-sm flex flex-col justify-between">
             <div className="flex items-center gap-2 mb-2">
               <Activity className="w-4 h-4 text-red-600" />
               <span className="text-sm font-bold text-red-700">Fire Mode</span>
             </div>
             <div className="text-3xl font-bold text-red-900">{anomalyCount}</div>
           </div>
-          <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between min-w-[140px] snap-center shrink-0">
+          <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between">
             <div className="flex items-center gap-2 mb-2">
               <XCircle className="w-4 h-4 text-slate-400" />
               <span className="text-sm font-medium text-slate-400">Offline</span>
@@ -188,7 +188,7 @@ export default function IotNetwork() {
 
           {/* Details Panel */}
           {selectedSensor ? (
-            <div className="w-full lg:w-[420px] fixed lg:relative bottom-[calc(env(safe-area-inset-bottom)+60px)] lg:bottom-auto left-0 right-0 z-[2000] lg:z-auto bg-white rounded-t-3xl lg:rounded-2xl border-t lg:border border-slate-200 shadow-[0_-10px_40px_rgb(0,0,0,0.1)] lg:shadow-sm flex flex-col shrink-0 overflow-hidden max-h-[50vh] lg:max-h-none lg:h-full">
+            <div className="w-full lg:w-full lg:w-[420px] fixed lg:relative bottom-[calc(env(safe-area-inset-bottom)+60px)] lg:bottom-auto left-0 right-0 z-[2000] lg:z-auto bg-white rounded-t-3xl lg:rounded-2xl border-t lg:border border-slate-200 shadow-[0_-10px_40px_rgb(0,0,0,0.1)] lg:shadow-sm flex flex-col shrink-0 overflow-hidden max-h-[50vh] lg:max-h-none lg:h-full">
               
               <div className={`p-5 border-b border-slate-200 flex justify-between items-start sticky top-0 z-10 ${selectedSensor.status === 'Fire Mode' ? 'bg-red-50' : 'bg-gray-50'}`}>
                 <div>
@@ -380,7 +380,7 @@ export default function IotNetwork() {
               </div>
             </div>
           ) : (
-            <div className="w-[420px] bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col items-center justify-center p-8 shrink-0 text-center">
+            <div className="w-full lg:w-[420px] bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col items-center justify-center p-8 shrink-0 text-center">
               <Cpu className="w-12 h-12 text-slate-600 mb-4" />
               <h3 className="text-lg font-bold text-slate-900 mb-1">No Sensor Selected</h3>
               <p className="text-sm text-slate-400 font-medium">Click on a ground sensor node on the map to view live telemetry, health status, and gateway connections.</p>

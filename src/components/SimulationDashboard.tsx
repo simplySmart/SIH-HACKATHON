@@ -165,15 +165,15 @@ export default function SimulationDashboard() {
   if (time >= 26000) { missionStatus = "RECOVERY"; statusColor = "text-blue-400"; }
 
   return (
-    <div className="flex flex-col h-screen bg-slate-900 font-sans text-slate-100 relative overflow-hidden z-50">
+    <div className="fixed top-[calc(env(safe-area-inset-top)+3.5rem)] bottom-[calc(env(safe-area-inset-bottom)+60px)] left-0 right-0 z-30 flex flex-col bg-slate-900 font-sans text-slate-100 overflow-hidden md:relative md:top-auto md:bottom-auto md:h-[calc(100vh-120px)] md:rounded-3xl">
       
       {/* TOP BAR - CONTROLS */}
-      <div className="h-16 bg-slate-800 border-b border-slate-700 flex items-center justify-between px-6 shrink-0 z-20">
+      <div className="bg-slate-800 border-b border-slate-700 flex flex-wrap items-center justify-between p-2 md:px-6 shrink-0 z-20 gap-y-2">
         <div className="flex items-center gap-4">
           <div className="w-8 h-8 bg-indigo-500/20 rounded flex items-center justify-center">
             <Play className="w-4 h-4 text-indigo-400" />
           </div>
-          <h1 className="font-bold text-lg tracking-wide">VANDRISHTI Live Simulation</h1>
+          <h1 className="font-bold text-sm md:text-lg tracking-wide truncate hidden sm:block">VANDRISHTI Live Simulation</h1>
         </div>
         
         <div className="flex items-center gap-4">
@@ -193,7 +193,7 @@ export default function SimulationDashboard() {
           <button onClick={() => setSpeed(2)} className={`px-2 py-1 text-xs font-bold rounded ${speed === 2 ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>2x</button>
         </div>
 
-        <div className="flex items-center gap-4 w-64">
+        <div className="hidden md:flex items-center gap-4 flex-1 max-w-md mx-4">
           <div className="flex-1">
              <input 
                type="range" 
@@ -204,18 +204,27 @@ export default function SimulationDashboard() {
              />
           </div>
         </div>
-        <div className="flex flex-col items-end w-32">
-          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Mission Timer</span>
-          <span className="font-mono font-bold text-lg text-indigo-400">
+        <div className="flex flex-col items-end min-w-[80px] md:w-32">
+          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Time</span>
+          <span className="font-mono font-bold text-sm md:text-lg text-indigo-400">
             00:{Math.floor(time / 1000).toString().padStart(2, '0')}.{Math.floor((time % 1000) / 10).toString().padStart(2, '0')}
           </span>
         </div>
+        <div className="w-full md:hidden px-2 pb-1">
+          <input
+            type="range"
+            min="0" max={DURATION}
+            value={time}
+            onChange={(e) => setTime(Number(e.target.value))}
+            className="w-full h-1 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-indigo-500"
+          />
+        </div>
       </div>
 
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
         
         {/* CENTER MAP (70%) */}
-        <div className="w-[70%] h-full relative bg-slate-950 border-r border-slate-700">
+        <div className="w-full lg:w-[70%] flex-1 lg:flex-none lg:h-full relative bg-slate-950 border-b lg:border-b-0 lg:border-r border-slate-700 shrink-0 lg:shrink">
           <MapContainer center={LOC_INDIA} zoom={5} style={{ height: '100%', width: '100%', background: '#020617' }} zoomControl={false} attributionControl={false} fadeAnimation={true}>
             <TileLayer
                 url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
@@ -420,7 +429,7 @@ export default function SimulationDashboard() {
         </div>
 
         {/* RIGHT PANEL (30%) */}
-        <div className="w-[30%] bg-slate-900 border-l border-slate-700 flex flex-col h-full relative z-20">
+        <div className="w-full lg:w-[30%] bg-slate-900 lg:border-l lg:border-t-0 border-slate-700 flex flex-col flex-1 lg:flex-none lg:h-full relative z-20 overflow-hidden shrink-0">
           
           <div className="p-6 border-b border-slate-800 bg-slate-950 shrink-0">
              <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">Live Mission Status</div>

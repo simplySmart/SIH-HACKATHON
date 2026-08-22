@@ -69,9 +69,9 @@ export default function Alerts() {
   return (
     <div className="flex flex-col  bg-white/80 backdrop-blur-3xl rounded-[2rem] p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-200 ">
       {/* Header */}
-      <header className="flex justify-between items-center mb-6 shrink-0">
+      <header className="flex flex-col md:flex-row md:justify-between items-start md:items-center gap-4 mb-6 shrink-0">
         <h1 className="text-2xl font-bold text-slate-900 uppercase tracking-tight">Incidents</h1>
-        <div className="flex gap-4 items-center">
+        <div className="flex flex-wrap gap-2 md:gap-4 items-center">
           <div className="flex items-center gap-1.5 px-2.5 py-1 bg-green-500/10 rounded-md border border-green-500/20">
             <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
             <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider">System Operational</span>
@@ -89,24 +89,24 @@ export default function Alerts() {
       </header>
 
       {/* Metrics */}
-      <div className="flex md:grid grid-cols-2 md:grid-cols-5 gap-4 mb-6 shrink-0 overflow-x-auto pb-2 snap-x">
-        <div className="bg-slate-50 rounded-xl p-4 border border-slate-200 min-w-[120px] snap-center">
+      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3 md:gap-4 mb-6 shrink-0">
+        <div className="bg-slate-50 rounded-xl p-4 border border-slate-200 ">
           <div className="text-sm font-medium text-slate-500 mb-1">Active</div>
           <div className="text-2xl font-bold text-slate-900">{metrics.active}</div>
         </div>
-        <div className="bg-red-500/10 rounded-xl p-4 border border-red-500/20 min-w-[120px] snap-center">
+        <div className="bg-red-500/10 rounded-xl p-4 border border-red-500/20 ">
           <div className="text-sm font-medium text-red-600 mb-1">Critical</div>
           <div className="text-2xl font-bold text-red-600">{metrics.critical}</div>
         </div>
-        <div className="bg-orange-50 rounded-xl p-4 border border-orange-100 min-w-[120px] snap-center">
+        <div className="bg-orange-50 rounded-xl p-4 border border-orange-100 ">
           <div className="text-sm font-medium text-orange-600 mb-1">Verifying</div>
           <div className="text-2xl font-bold text-orange-700">{metrics.verifying}</div>
         </div>
-        <div className="bg-purple-50 rounded-xl p-4 border border-purple-100 min-w-[120px] snap-center">
+        <div className="bg-purple-50 rounded-xl p-4 border border-purple-100 ">
           <div className="text-sm font-medium text-purple-600 mb-1">Responding</div>
           <div className="text-2xl font-bold text-purple-700">{metrics.responding}</div>
         </div>
-        <div className="bg-blue-50 rounded-xl p-4 border border-blue-100 min-w-[120px] snap-center">
+        <div className="bg-blue-50 rounded-xl p-4 border border-blue-100 ">
           <div className="text-sm font-medium text-blue-600 mb-1">Contained</div>
           <div className="text-2xl font-bold text-blue-700">{metrics.contained}</div>
         </div>

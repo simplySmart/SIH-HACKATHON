@@ -3,20 +3,17 @@ import {
   Bell,
   LayoutDashboard,
   Activity,
-  BarChart2,
-  Satellite,
+  Radio,
   Cpu,
   FileText,
   Settings,
   TreePine,
   ChevronDown,
-  ThermometerSun,
-  Radio, 
-  Truck,
-  PlayCircle
+  PlayCircle,
+  X
 } from 'lucide-react';
 
-export default function Sidebar() {
+export default function Sidebar({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: (val: boolean) => void }) {
   const navItems = [
     { icon: LayoutDashboard, label: 'Operations Center', path: '/' },
     { icon: Bell, label: 'Active Incidents', path: '/incidents' },
@@ -29,55 +26,71 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="hidden md:flex w-64 bg-white border-r border-slate-200 text-slate-400 flex-col h-screen fixed left-0 top-0 z-20 shadow-sm">
-      <div className="p-6 flex items-center gap-3">
-        <div className="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center shrink-0">
-          <TreePine className="w-6 h-6 text-emerald-600" />
-        </div>
-        <div className="flex-1 overflow-hidden">
-          <h1 className="text-slate-900 font-bold text-lg leading-tight truncate">VANDRISHTI</h1>
-          <p className="text-[11px] text-slate-500 truncate">Command & Control System</p>
-        </div>
-        <ChevronDown className="w-4 h-4 text-slate-400 shrink-0" />
-      </div>
-      
-      <nav className="flex-1 px-4 py-2 space-y-1 overflow-y-auto custom-scrollbar">
-        {navItems.map((item, idx) => (
-          <NavLink
-            key={idx}
-            to={item.path}
-            className={({ isActive }) =>
-              `w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${
-                isActive
-                  ? 'bg-emerald-50 text-emerald-700 shadow-[inset_4px_0_0_0_#047857]'
-                  : 'hover:bg-slate-50 hover:text-slate-900'
-              }`
-            }
-          >
-            {({ isActive }) => (
-              <>
-                <item.icon className={`w-5 h-5 shrink-0 ${isActive ? 'text-emerald-600' : 'text-slate-400'}`} />
-                <span className="font-medium text-sm text-left">{item.label}</span>
-              </>
-            )}
-          </NavLink>
-        ))}
-      </nav>
-      
-      <div className="p-4 border-t border-slate-200">
-        <div className="flex items-center gap-3 px-4 py-3 hover:bg-slate-50 rounded-xl cursor-pointer transition-colors">
-          <img
-            src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix"
-            alt="User"
-            className="w-9 h-9 rounded-full bg-gray-100 shrink-0"
-          />
-          <div className="flex-1 overflow-hidden">
-            <h4 className="text-slate-900 text-sm font-medium truncate">Cmdr. Verma</h4>
-            <p className="text-[10px] text-slate-500 truncate">Officer in Charge</p>
+    <>
+      {/* Backdrop */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[50] hidden md:block" 
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+
+      {/* Drawer */}
+      <aside className={`hidden md:flex w-64 bg-white border-r border-slate-200 text-slate-400 flex-col h-screen fixed left-0 top-0 z-[60] shadow-2xl transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className="p-6 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center shrink-0">
+              <TreePine className="w-6 h-6 text-emerald-600" />
+            </div>
+            <div className="flex-1 overflow-hidden">
+              <h1 className="text-slate-900 font-bold text-lg leading-tight truncate">VANDRISHTI</h1>
+              <p className="text-[11px] text-slate-500 truncate">Command Center</p>
+            </div>
           </div>
-          <ChevronDown className="w-4 h-4 text-slate-400 shrink-0" />
+          <button onClick={() => setIsOpen(false)} className="p-1 text-slate-400 hover:bg-slate-100 rounded-lg transition-colors">
+            <X className="w-5 h-5" />
+          </button>
         </div>
-      </div>
-    </aside>
+        
+        <nav className="flex-1 px-4 py-2 space-y-1 overflow-y-auto custom-scrollbar">
+          {navItems.map((item, idx) => (
+            <NavLink
+              key={idx}
+              to={item.path}
+              onClick={() => setIsOpen(false)}
+              className={({ isActive }) =>
+                `w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${
+                  isActive
+                    ? 'bg-emerald-50 text-emerald-700 shadow-[inset_4px_0_0_0_#047857]'
+                    : 'hover:bg-slate-50 hover:text-slate-900'
+                }`
+              }
+            >
+              {({ isActive }) => (
+                <>
+                  <item.icon className={`w-5 h-5 shrink-0 ${isActive ? 'text-emerald-600' : 'text-slate-400'}`} />
+                  <span className="font-medium text-sm text-left">{item.label}</span>
+                </>
+              )}
+            </NavLink>
+          ))}
+        </nav>
+        
+        <div className="p-4 border-t border-slate-200">
+          <div className="flex items-center gap-3 px-4 py-3 hover:bg-slate-50 rounded-xl cursor-pointer transition-colors">
+            <img
+              src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix"
+              alt="User"
+              className="w-9 h-9 rounded-full bg-gray-100 shrink-0"
+            />
+            <div className="flex-1 overflow-hidden">
+              <h4 className="text-slate-900 text-sm font-medium truncate">Cmdr. Verma</h4>
+              <p className="text-[10px] text-slate-500 truncate">Officer in Charge</p>
+            </div>
+            <ChevronDown className="w-4 h-4 text-slate-400 shrink-0" />
+          </div>
+        </div>
+      </aside>
+    </>
   );
 }

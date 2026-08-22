@@ -164,11 +164,12 @@ export default function CommandCenter() {
                 <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider bg-slate-50 px-2 py-1 rounded">Tactical View</span>
               </div>
             </div>
-            <div className="flex-1 relative z-0">
+            <div className="flex-1 relative z-0 min-h-[400px]">
               <MapContainer 
                 center={mapCenter as [number, number]} 
                 zoom={9} 
-                style={{ height: '100%', width: '100%', background: '#f8fafc' }}
+                className="absolute inset-0"
+                style={{ background: '#f8fafc' }}
                 zoomControl={false}
               >
                 <LayersControl position="topright">
